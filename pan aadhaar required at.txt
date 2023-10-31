@@ -1,0 +1,46 @@
+...........//scheme_account.js
+
+		$('#pan_required_at').val(scheme[0].pan_required_at);
+
+	if(scheme[0].is_pan_required == 1 && scheme[0].pan_required_at == 1){}
+.......//master/scheme/form
+
+	<div class="col-md-2">
+
+				<label>PAN Required At:</label>
+
+				<select id="3" name="sch[pan_required_at]" class="form-control">
+
+				<!-- <option value="0" <?php if($sch['pan_required_at'] == 0){ ?> selected="true" <?php } ?>>Select</option> -->
+
+				<option value="1" <?php if($sch['pan_required_at'] == 1){ ?> selected="true" <?php } ?>>At the time of Scheme joining</option>
+
+				<option value="2" <?php if($sch['pan_required_at'] == 2){ ?> selected="true" <?php } ?>>At the time of Scheme closing</option>
+
+				</select>
+
+			</div>
+
+<div class="col-md-2">
+
+				<label>Aadhar Required At:</label>
+
+				<select id="3" name="sch[aadhaar_required_at]" class="form-control">
+
+				<!-- <option value="0" <?php if($sch['aadhaar_required_at'] == 0){ ?> selected="true" <?php } ?>>Select</option> -->
+
+				<option value="1" <?php if($sch['aadhaar_required_at'] == 1){ ?> selected="true" <?php } ?>>At the time of Scheme joining</option>
+
+				<option value="2" <?php if($sch['aadhaar_required_at'] == 2){ ?> selected="true" <?php } ?>>At the time of Scheme closing</option>
+
+				</select>
+
+			</div>
+........//admin_scheme
+
+	'aadhaar_required_at'		=>(isset($sch_data['aadhaar_required_at'])?$sch_data['aadhaar_required_at']:0), x2
+	'pan_required_at'		=>(isset($sch_data['pan_required_at'])?$sch_data['pan_required_at']:0), x2
+
+...........// Scheme_model
+
+	adding field name(pan_required_at) in respective queries

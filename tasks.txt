@@ -1,0 +1,556 @@
+// Adding input fields in chit settings
+
+................//view file
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="form-group">
+			<h5 class="col-md-4">Block Payments (in mins)</h5>
+				<div class="col-md-4">
+					<input type="number" class="form-control" id="block_pay_mins" name="general[block_pay_mins]" value="<?php echo set_value(general[block_pay_mins],$general[block_pay_mins])  ?>" placeholder="eg:5"/>
+				</div>
+			<p class="help-block"></p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="form-group">
+			<h5 class="col-md-4">Payment Gateway Email</h5>
+				<div class="col-md-4">
+					<input type="text" class="form-control" id="pg_email" name="general[pg_email]" value="<?php echo set_value(general[pg_email],$general[pg_email])  ?>" placeholder=""/>
+				</div>
+			<p class="help-block"></p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="form-group">
+			<h5 class="col-md-4">Show Direct Pay</h5>
+				<div class="col-md-8">											
+				<div class="col-md-4">
+					<input type="radio" id="id_show_gcode_1" name="general[showDirectpay]" value="1"<?php if($general['showDirectpay'] == 1){ ?> checked="true" <?php } ?>> Yes
+				</div>
+		<div class="col-md-4">
+			<input type="radio" id="id_show_gcode_0" name="general[showDirectpay]"value="0" <?php if($general['showDirectpay'] == 0){ ?> checked="true" <?php } ?>> No
+		</div>
+		<p class="help-block"></p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="form-group">
+			<h5 class="col-md-4">Pin Required</h5>
+				<div class="col-md-8">											
+				<div class="col-md-4">
+					<input type="radio" id="id_show_gcode_1" name="general[is_pin_required]" value="1"<?php if($general['is_pin_required'] == 1){ ?> checked="true" <?php } ?>> Yes
+				</div>
+		<div class="col-md-4">
+					<input type="radio" id="id_show_gcode_0" name="general[is_pin_required]"value="0" <?php if($general['is_pin_required'] == 0){ ?> checked="true" <?php } ?>> No
+				</div>
+				<p class="help-block"></p>
+		</div>
+	</div>
+	</div>
+</div>
+.....................//admin_setting_model
+
+	Adding a "is_pin_required" field in SettingsDB function.
+	Adding a "block_pay_mins" field in SettingsDB function.
+	Adding a "pg_email" field in SettingsDB function.
+	Adding a "showDirectpay" field in SettingsDB function.	                                                  
+		                                             
+....................//admin_settings(controller)
+
+	Adding fields in "$config_dat" array in config_setupdate function:
+
+		'block_pay_mins' => (isset($general['block_pay_mins'])?$general['block_pay_mins']:NULL),
+		'pg_email' => (isset($general['pg_email'])?$general['pg_email']:NULL),
+		'showDirectpay' => (isset($general['showDirectpay'])?$general['showDirectpay']:0),										'is_pin_required' => (isset($general['is_pin_required'])?$general['is_pin_required']:0)  
+
+......................................4/10/2023
+//Adding new tab in general settings.
+
+<li><a href="#tab_Whatsapp" data-toggle="pill">Whatsapp Settings</a></li>
+
+	<div class="tab-pane" id = "tab_Whatsapp">
+					  	<div class="row">
+
+									<div class="col-sm-12">
+
+										<div class="form-group">
+
+										<label for="whats_app_url" class="col-md-3">Whatsapp URL</label>
+
+										<div class="col-md-4">
+
+											<input type="text" class="form-control" name="config[whats_app_url]" id="whats_app_url" value="<?php echo set_value(config[whats_app_url],$config[whats_app_url])  ?>" placeholder="eg:"/>
+
+											<p class="help-block"></p>
+
+										</div>
+
+										</div>
+
+									</div>
+
+			  					</div>
+						<div class="row">
+
+									<div class="col-sm-12">
+
+										<div class="form-group">
+
+										<label for="instance_id" class="col-md-3">Instance ID</label>
+
+										<div class="col-md-4">
+
+											<input type="text" class="form-control" name="config[instance_id]" id="instance_id" value="<?php echo set_value(config[instance_id],$config[instance_id])  ?>" placeholder="eg:"  />
+
+											<p class="help-block"></p>
+
+										</div>
+
+										</div>
+
+									</div>
+
+									</div>
+									<div class="box-footer clearfix">
+
+										<button class="btn btn-sm btn-app pull-left btn-cancel" type="button"><i class="fa fa-remove"></i> Cancel</button>
+
+										<button class="btn btn-sm btn-app pull-right" id="submit_whatsapp_tab" name="general[submit_whatsapp_tab]" value="Whatsapp Tab"><i class="fa fa-save"></i> Save</button>
+
+									</div> 
+															
+					</div>
+//adding fields in array
+	$config = $this->input->post('config');
+			  $gen_info = array(
+						'whats_app_url'   => (isset($config['whats_app_url'])?$config['whats_app_url']:NULL),
+						'instance_id'   => (isset($config['instance_id'])?$config['instance_id']:NULL)
+					);
+
+//service_model(mobile)
+
+	//creating function
+	function getConfigData()
+	{
+	    $sql = $this->db->query("SELECT * from configuration");
+	    return $sql->row_array();
+
+	$config_data = $this->getConfigData();
+        $whatsappurl = $config_data["whats_app_url"];
+        $instanceid = $config_data["instance_id"];
+
+//sms_model(mobile)
+
+
+	//creating function
+	function getConfigData()
+	{
+	    $sql = $this->db->query("SELECT * from configuration");
+	    return $sql->row_array();
+
+	$config_data = $this->getConfigData();
+        $whatsappurl = $config_data["whats_app_url"];
+        $instanceid = $config_data["instance_id"];
+
+	
+.......................//05/10/2023
+//changes in mobileapi_model
+
+	function getAppconfigData(){
+		$sql = $this->db->query("SELECT app_cus_email,app_cus_address1,app_cus_address2,app_cus_country,
+app_cus_state,app_cus_lastname FROM `configuration`");
+		return $sql->row_array();
+		}
+	
+
+	$appConfigData = $this->getAppconfigData();
+		$result['reg_custom_fields'] = $appConfigData;
+		return $result;	
+.............................//06/10/23
+....................//db
+	ALTER TABLE `configuration` ADD `app_cus_firstname` TINYINT(1) NOT NULL COMMENT ' 0 -> No need to show, 1 -> Show field, 2 -> Show field and is mandatory' AFTER `app_cus_lastname`, ADD `app_cus_mobile` TINYINT(1) NOT NULL COMMENT ' 0 -> No need to show, 1 -> Show field, 2 -> Show field and is mandatory' AFTER `app_cus_firstname`, ADD `app_cus_gender` TINYINT(1) NOT NULL COMMENT ' 0 -> No need to show, 1 -> Show field, 2 -> Show field and is mandatory' AFTER `app_cus_mobile`, ADD `app_cus_dateofbirth` TINYINT(1) NOT NULL COMMENT ' 0 -> No need to show, 1 -> Show field, 2 -> Show field and is mandatory' AFTER `app_cus_gender`, ADD `app_cus_maritalstatus` TINYINT(1) NOT NULL COMMENT ' 0 -> No need to show, 1 -> Show field, 2 -> Show field and is mandatory' AFTER `app_cus_dateofbirth`, ADD `app_cus_custype` TINYINT(1) NOT NULL COMMENT ' 0 -> No need to show, 1 -> Show field, 2 -> Show field and is mandatory' AFTER `app_cus_maritalstatus`, ADD `app_cus_title` TINYINT(1) NOT NULL COMMENT ' 0[...]
+
+...............//config settings
+
+	<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">First Name</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_fnm_no" name="config[app_cus_firstname]" value="0" <?php if($config['app_cus_firstname'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_fnm_yes" name="config[app_cus_firstname]" value="1" <?php if($config['app_cus_firstname'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_fnm_yes_r" name="config[app_cus_firstname]" value="2" <?php if($config['app_cus_firstname'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Last Name</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_lnm_no" name="config[app_cus_lastname]" value="0" <?php if($config['app_cus_lastname'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_lnm_yes" name="config[app_cus_lastname]" value="1"<?php if($config['app_cus_lastname'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_lnm_yes_r" name="config[app_cus_lastname]" value="2" <?php if($config['app_cus_lastname'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Mobile number</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_mobile_no" name="config[app_cus_mobile]" value="0" <?php if($config['app_cus_mobile'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_mobile_yes" name="config[app_cus_mobile]" value="1" <?php if($config['app_cus_mobile'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_mobile_yes_r" name="config[app_cus_mobile]" value="2" <?php if($config['app_cus_mobile'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Gender</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_gndr_no" name="config[app_cus_gender]" value="0" <?php if($config['app_cus_gender'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_gndr_yes" name="config[app_cus_gender]" value="1" <?php if($config['app_cus_gender'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_gndr_yes_r" name="config[app_cus_gender]" value="2" <?php if($config['app_cus_gender'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Date Of Birth</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_dob_no" name="config[app_cus_dateofbirth]" value="0" <?php if($config['app_cus_dateofbirth'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_dob_yes" name="config[app_cus_dateofbirth]" value="1" <?php if($config['app_cus_dateofbirth'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_dob_yes_r" name="config[app_cus_dateofbirth]" value="2" <?php if($config['app_cus_dateofbirth'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Marital Status</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_mrtlsts_no" name="config[app_cus_maritalstatus]" value="0" <?php if($config['app_cus_maritalstatus'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_mrtlsts_yes" name="config[app_cus_maritalstatus]" value="1" <?php if($config['app_cus_maritalstatus'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_mrtlsts_yes_r" name="config[app_cus_maritalstatus]" value="2" <?php if($config['app_cus_maritalstatus'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Customer Type</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_custype_no" name="config[app_cus_custype]" value="0" <?php if($config['app_cus_custype'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_custype_yes" name="config[app_cus_custype]" value="1" <?php if($config['app_cus_custype'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_custype_yes_r" name="config[app_cus_custype]" value="2" <?php if($config['app_cus_custype'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Title</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_title_no" name="config[app_cus_title]" value="0" <?php if($config['app_cus_title'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_title_yes" name="config[app_cus_title]" value="1" <?php if($config['app_cus_title'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_title_yes_r" name="config[app_cus_title]" value="2" <?php if($config['app_cus_title'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Village</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_vilg_no" name="config[app_cus_village]" value="0" <?php if($config['app_cus_village'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_vilg_yes" name="config[app_cus_village]" value="1" <?php if($config['app_cus_village'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_vilg_yes_r" name="config[app_cus_village]" value="2" <?php if($config['app_cus_village'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Pincode</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_pin_no" name="config[app_cus_pincode]" value="0" <?php if($config['app_cus_pincode'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_pin_yes" name="config[app_cus_pincode]" value="1" <?php if($config['app_cus_pincode'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_pin_yes_r" name="config[app_cus_pincode]" value="2" <?php if($config['app_cus_pincode'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Nominee Name</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_nomname_no" name="config[app_cus_nominee_name]" value="0" <?php if($config['app_cus_nominee_name'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_nomname_yes" name="config[app_cus_nominee_name]" value="1" <?php if($config['app_cus_nominee_name'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_nomname_yes_r" name="config[app_cus_nominee_name]" value="2" <?php if($config['app_cus_nominee_name'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Nominee Mobile</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_nommbl_no" name="config[app_cus_nominee_mobile]" value="0" <?php if($config['app_cus_nominee_mobile'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_nommbl_yes" name="config[app_cus_nominee_mobile]" value="1" <?php if($config['app_cus_nominee_mobile'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_nommbl_yes_r" name="config[app_cus_nominee_mobile]" value="2" <?php if($config['app_cus_nominee_mobile'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Nominee Relationship</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_nomrel_no" name="config[app_cus_nominee_relationship]" value="0" <?php if($config['app_cus_nominee_relationship'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_nomrel_yes" name="config[app_cus_nominee_relationship]" value="1" <?php if($config['app_cus_nominee_relationship'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_nomrel_yes_r" name="config[app_cus_nominee_relationship]" value="2" <?php if($config['app_cus_nominee_relationship'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Nominee Address1(street)</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_nomstreet_no" name="config[app_cus_nominee_address1]" value="0" <?php if($config['app_cus_nominee_address1'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_nomstreet_yes" name="config[app_cus_nominee_address1]" value="1" <?php if($config['app_cus_nominee_address1'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_nomstreet_yes_r" name="config[app_cus_nominee_address1]" value="2" <?php if($config['app_cus_nominee_address1'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Nominee Address2(area)</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_nomarea_no" name="config[app_cus_nominee_address2]" value="0" <?php if($config['app_cus_nominee_address2'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_nomarea_yes" name="config[app_cus_nominee_address2]" value="1" <?php if($config['app_cus_nominee_address2'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_nomarea_yes_r" name="config[app_cus_nominee_address2]" value="2" <?php if($config['app_cus_nominee_address2'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Adhaar Number</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_adharno_no" name="config[app_cus_adharnumber]" value="0" <?php if($config['app_cus_adharnumber'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_adharno_yes" name="config[app_cus_adharnumber]" value="1" <?php if($config['app_cus_adharnumber'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_adharno_yes_r" name="config[app_cus_adharnumber]" value="2" <?php if($config['app_cus_adharnumber'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Pan Number</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_panno_no" name="config[app_cus_pannumber]" value="0" <?php if($config['app_cus_pannumber'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_panno_yes" name="config[app_cus_pannumber]" value="1" <?php if($config['app_cus_pannumber'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_panno_yes_r" name="config[app_cus_pannumber]" value="2" <?php if($config['app_cus_pannumber'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">DLC Number</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="app_dlcno_no" name="config[app_cus_dlcnumber]" value="0" <?php if($config['app_cus_dlcnumber'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_dlcno_yes" name="config[app_cus_dlcnumber]" value="1" <?php if($config['app_cus_dlcnumber'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="app_dlcno_yes_r" name="config[app_cus_dlcnumber]" value="2" <?php if($config['app_cus_dlcnumber'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+..........// MobileApi_model
+	function getAppconfigData(){
+			$sql = $this->db->query("SELECT app_cus_email as email,app_cus_address1 as address1,app_cus_address2 as address2,app_cus_country as country,app_cus_city as city,app_cus_state as state,app_cus_lastname as lastname,app_cus_firstname as firstname,app_cus_mobile as mobile,
+			app_cus_gender as gender,app_cus_custype as customerType,app_cus_title as Title,app_cus_dateofbirth as DOB,app_cus_maritalstatus as MaritalStatus,app_cus_village as village,app_cus_pincode as pincode,app_cus_nominee_name as nomineeName,app_cus_nominee_mobile as nomineeName,
+			app_cus_nominee_relationship as nomineeRelationship,app_cus_nominee_address1 as nomineeStreet,app_cus_nominee_address2 as nomineeArea,app_cus_adharnumber as Adharnumber,app_cus_pannumber as PanNumber,app_cus_dlcnumber as dlcnumber FROM `configuration`");
+			//print_r($sql);exit;
+			return $sql->row_array();
+		}
+
+$appConfigData = $this->getAppconfigData();
+		 $result['reg_custom_fields'] = $appConfigData;
+		 return $result;
+	  

@@ -1,0 +1,24 @@
+............//account_model
+
+function get_close_account()
+	s.is_pan_required,s.pan_required_at,s.aadhaar_required_at,s.is_aadhaar_required,after(s.amount,s.scheme_type as sch_typ,).
+
+...........//admin_manage(function  close_account_form case:close).
+
+	'pan_required_at' => $account['pan_required_at'],
+	'aadhaar_required_at' => $account['aadhaar_required_at'],
+	'is_pan_required' => $account['is_pan_required'],
+	'is_aadhaar_required' => $account['is_aadhaar_required'],
+
+.........//scheme/closing/form
+
+	<?php if ($account['is_pan_required'] == 1 && $account['pan_required_at'] == 2) { ?>
+    								<button type="button" class="btn btn-success" id="uploadPanButton">Upload PAN</button>
+    								<input type="file" style="display: none;" id="uploadPanInput">
+								<?php } ?>
+								<?php if ($account['is_aadhaar_required'] == 1 && $account['aadhaar_required_at'] == 2) { ?>
+    								<button type="button" class="btn btn-success" id="uploadAadhaarButton">Upload Aadhaar</button>
+    								<input type="file" style="display: none;" id="uploadAadhaarInput">
+								<?php } ?>
+(after//upload image)
+

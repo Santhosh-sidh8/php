@@ -1,0 +1,316 @@
+............///Scheme_account.js
+	$(document).ready(function() {
+		
+		
+
+
+		$("#proceed_pan").click(function() {
+			if (validateForm()) {
+										
+
+				$('#panModal').modal('toggle');							
+						
+				$('#pan_img_close').val(encodeURIComponent(JSON.stringify(pre_img_resource)));	 	
+						
+				
+			}
+		});
+	
+		function validateForm() {
+
+			var panNumber = document.getElementById("kyc_pan").value;
+	
+			if (panNumber == null || panNumber === "") {
+				msg='<div class = "alert alert-danger "><a href = "#" class = "close" data-dismiss = "alert">&times;</a><strong>Warning!</strong> Enter the Pan Number.</div>';
+
+							$("div.overlay").css("display", "none");
+
+							$('#pan_error_message').html(msg);
+				return false;
+			} else if (panNumber.trim() === "" || panNumber.length !== 10) {
+				msg='<div class = "alert alert-danger"><a href = "#" class = "close" data-dismiss = "alert">&times;</a><strong>Warning!</strong> Enter the valid Pan Number.</div>';
+
+							$("div.overlay").css("display", "none");
+
+							$('#pan_error_message').html(msg);
+				return false;
+			} else {
+				
+				$("#pan_error_message").html("").css("color", "initial"); 
+			}
+	
+			// Validate the image
+			var fileInput = document.getElementById("pan-file-input");
+			if (fileInput.files.length === 0) {
+				msg='<div class = "alert alert-danger"><a href = "#" class = "close" data-dismiss = "alert">&times;</a><strong>Warning!</strong> Please select the pan image.</div>';
+
+							$("div.overlay").css("display", "none");
+
+							$('#panImg_error_message').html(msg);
+				return false; // No image selected
+			} else {
+				$("#image_error_message").html("").css("color", "initial"); 
+			}
+	
+			return true; // PAN and image are valid
+		}
+	});	
+
+	//pan validation ends...
+
+	//aadhaar validation starts...
+	
+	$(document).ready(function() {
+		$("#proceed_aadhaar").click(function() {
+			if (validateAadhaarForm()) {
+
+					$('#aadhaarModal').modal('toggle');
+					$('#aadhaar_img_close').val(encodeURIComponent(JSON.stringify(pre_img_resource)));
+			}
+		});
+	
+		function validateAadhaarForm() {
+			var aadhaarNumber = document.getElementById("kyc_aadhaar").value;
+	
+			if (aadhaarNumber == null || aadhaarNumber === "") {
+				var msg = '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert">&times;</a><strong>Warning!</strong> Enter the Aadhaar Number.</div>';
+				$("div.overlay").css("display", "none");
+				$('#aadhaar_error_message').html(msg);
+				return false;
+			} else if (!/^\d{12}$/.test(aadhaarNumber)) {
+				var msg = '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert">&times;</a><strong>Warning!</strong> Enter a valid 12-digit Aadhaar Number consisting of numbers only.</div>';
+				$("div.overlay").css("display", "none");
+				$('#aadhaar_error_message').html(msg);
+				return false;
+			} else {
+				$('#aadhaar_error_message').html("").css("color", "initial");
+			}
+	
+			var fileInput = document.getElementById("aadhaar-file-input");
+			if (fileInput.files.length === 0) {
+				var msg = '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert">&times;</a><strong>Warning!</strong> Please select the Aadhaar image.</div>';
+				$("div.overlay").css("display", "none");
+				$('#aadhaarImg_error_message').html(msg);
+				return false;
+			} else {
+				$('#image_error_message').html("").css("color", "initial");
+			}
+	
+			return true;
+		}
+	});
+	
+	// aadhaar validations end...
+
+		
+	
+
+//aadhaar & pan starts...
+
+
+	$(document).ready(function() {
+            $("#pan-file-input").change(function(e) {
+                e.preventDefault();
+                validate_Image(this);
+            });
+
+            function validate_Image(input) {
+                var preview = $('#pan_img_preview');
+
+                if (input.files[0].size > 1048576) {
+                    alert('File size cannot be greater than 1 MB');
+                    input.value = "";
+                    preview.css('display', 'none');
+                } else {
+                    var fileName = input.value;
+                    var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+                    ext = ext.toLowerCase();
+                    if (ext !== "jpg" && ext !== "png" && ext !== "jpeg" && ext !== "svg") {
+                        alert("Upload JPG or PNG Images only");
+                        input.value = "";
+                        preview.css('display', 'none');
+                    } else {
+                        var file = input.files[0];
+                        var reader = new FileReader();
+                        reader.onloadend = function () {
+                            preview.prop('src', reader.result);
+                        }	
+                        if (file) {
+                            reader.readAsDataURL(file);
+                            preview.css('display', '');
+                        } else {
+                            preview.prop('src', '');
+                            preview.css('display', 'none');
+                        }
+                    }
+                }
+            }
+        });
+
+
+  $("#aadhaar-file-input").change( function(e){
+	e.preventDefault(); 
+	 //alert(asd);
+	validateImage(this);
+});
+function validateImage()
+{
+console.log(arguments);
+	if(arguments[0].id == 'aadhaar-file-input')
+  {
+	 var preview = $('#aadhaar_img_preview');
+  }
+if(arguments[0].files[0].size > 1048576)
+  {
+	 alert('File size cannot be greater than 1 MB');
+	 arguments[0].value = "";
+	 preview.css('display','none');
+  }
+ else
+	{
+		var fileName =arguments[0].value;
+		var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+		ext = ext.toLowerCase();
+		if(ext != "jpg" && ext != "png" && ext != "jpeg" && ext != "svg")
+		{
+			alert("Upload JPG or PNG Images only");
+			arguments[0].value = "";
+			preview.css('display','none');
+		}
+		else
+		{
+			var file    = arguments[0].files[0];
+			var reader  = new FileReader();
+			  reader.onloadend = function () {
+				preview.prop('src',reader.result);
+			  }	
+			  if (file)
+			  {
+				 reader.readAsDataURL(file);
+				preview.css('display','');
+			  }
+			  else
+			  {
+				  preview.prop('src','');
+				preview.css('display','none');
+			  }
+		 }
+	}
+	//code created by santhosh on 25/10/23 ends here...
+
+............//account_model(service)
+
+	function update_closing_account($data,$id_customer)
+	{
+		$this->db->where('id_customer',$id_customer);
+		$status=$this->db->update(self::CUS_TABLE,$data);
+		return $status;	
+	}
+........//views/scheme/closing/form(after-imageModel)
+	<div class="modal fade in" id="panModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" data-keyboard="true" data-backdrop="static" >
+						<div class="modal-dialog" style="width:60%;">
+							<div class="modal-content">
+								<div class="modal-header">
+					
+									<h4 class="modal-title" id="myModalLabel">Add PAN Details</h4>
+								</div>
+								<div class="modal-body">
+									<div id="fill_error_message"></div>
+									<div class="row">
+										<div class="col-md-5">
+
+											<label for="">PAN Number</label> 
+											<div id="pan_error_message"></div>
+											<div class='form-group '>
+
+												<input class="form-control" minlength="10" maxlength="10" id="kyc_pan" placeholder="ex:ABCTY1234D"  name="account[pan_no]" value="<?php echo set_value('account[pan_no]',$account['pan_no']); ?>" type="text" onchange="validate_kyc_pan()" required  oninput="this.value = this.value.toUpperCase()" autocomplete="off" />
+
+											</div> 
+
+										</div>
+									</div>
+									
+										<div class="form-group">
+											<label for="panFile"> PAN Card Image:</label>
+											<input id="pan-file-input" type="file" name="panFile" accept="image/*" onchange="validate_Image(this);">
+										</div>
+										<div id="panImg_error_message"></div>
+
+									<div>
+										<img src="http://localhost:8080/kamadhenuemi/admin/assets/img/no_image.png" class="img-thumbnail" id="pan_img_preview" style="width:304px;height:100%;" alt="Offer image">
+									</div>
+									<div>
+										<i class="fa fa-close" style="display: none;" id="pan_img_close"></i>
+									</div>
+								</div>
+								<div class="modal-footer">
+								<button type="button" id="proceed_pan" class="btn btn-success" >proceed</button> 
+								
+
+								</div>
+							</div>
+						</div>
+					</div> 
+					<!-- Aadhaar Upload -->
+
+
+					<div class="modal fade in" id="aadhaarModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" data-keyboard="true" data-backdrop="static">
+    <div class="modal-dialog" style="width:60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Add Aadhaar Details</h4>
+            </div>
+            <div class="modal-body">
+                <div id="fill_error_message"></div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label for="kyc_aadhaar">Aadhaar Number</label>
+                        <div id="aadhaar_error_message"></div>
+                        <div class='form-group'>
+                            <input class="form-control" minlength="12" maxlength="12" id="kyc_aadhaar" placeholder="e.g., 123456789012" name="account[aadhaar_no]" value="" type="text" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="aadhaarFile">Aadhaar Card Image:</label>
+                    <input id="aadhaar-file-input" type="file" name="aadhaarFile" accept="image/*" onchange="validateAadhaarImage(this);">
+                </div>
+                <div id="aadhaarImg_error_message"></div>
+                <div>
+                    <img src="http://localhost:8080/kamadhenuemi/admin/assets/img/no_image.png" class="img-thumbnail" id="aadhaar_img_preview" style="width:304px;height:100%;" alt="Aadhaar image">
+                </div>
+                <div>
+                    <i class="fa fa-close" style="display: none;" id="aadhaar_img_close"></i>
+                </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" id="proceed_aadhaar" class="btn btn-success" >proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+...........//admin_manage(function  close_account_form/ case:save).
+
+	$cus_data = array(
+			'pan' =>$account['pan_no'],
+			'aadhaar' =>$account['aadhaar_no'],
+		);
+		$id_customer=$accounts['id_customer'];
+		$status = $this->$model->update_closing_account($cus_data,$id_customer);	
+
+		//pan upload starts
+		$get_pan_file = $_FILES['panFile']['name'];
+		if($get_pan_file != ''){
+			$this->set_image($accounts['id_customer']);
+		}
+			 
+		
+		//pan upload ends
+		//aadhaar upload starts
+		$get_aadhaar_file = $_FILES['aadhaarFile']['name'];
+		if($get_aadhaar_file != ''){
+			 $this->set_image($accounts['id_customer']);
+			 
+		}
+		//aadhaar upload ends

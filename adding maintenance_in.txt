@@ -1,0 +1,63 @@
+.......//// form.php
+	
+
+	<div class="row">
+									<div class="form-group">
+										<label for="chargeseme_name" class="col-md-3 col-md-offset-1">Maintenance In</label>
+										<div class="col-md-6">
+											<div>
+												<label class="checkbox-inline">
+													<input type="checkbox" class="main_data" id="all" name="general[maintenance_in][]" value="1" <?php if (in_array('1', explode(',', $general['maintenance_in']))) { echo 'checked="true"'; } ?>>
+													All
+												</label>
+											</div>
+											<div>
+												<label class="checkbox-inline">
+													<input type="checkbox" class="main_data" id="admin" name="general[maintenance_in][]" value="2" <?php if (in_array('2', explode(',', $general['maintenance_in']))) { echo 'checked="true"'; } ?>>
+													Admin
+												</label>
+											</div>
+											<div>
+												<label class="checkbox-inline">
+													<input type="checkbox" class="main_data" id="customer_app" name="general[maintenance_in][]" value="3" <?php if (in_array('3', explode(',', $general['maintenance_in']))) { echo 'checked="true"'; } ?>>
+													Customer app
+												</label>
+											</div>
+											<div>
+												<label class="checkbox-inline">
+													<input type="checkbox" class="main_data" id="collection_app" name="general[maintenance_in][]" value="4" <?php if (in_array('4', explode(',', $general['maintenance_in']))) { echo 'checked="true"'; } ?>>
+													Collection app
+												</label>
+											</div>
+											<div>
+												<label class="checkbox-inline">
+													<input type="checkbox" class="main_data" id="web_app" name="general[maintenance_in][]" value="5" <?php if (in_array('5', explode(',', $general['maintenance_in']))) { echo 'checked="true"'; } ?>>
+													Web app
+												</label>
+											</div>
+											<div>
+												<label class="checkbox-inline">
+													<input type="hidden" class="main_totdata" id="maintenance_data" name="general[maintenance_in]" value="<?php echo $general['maintenance_in']; ?>" />
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+
+.......///admin_settings
+	'maintenance_in'    	 => (isset($general['maintenance_in'])?$general['maintenance_in']:0), adding this to the both queries
+......///admin_settings_model
+
+	adding the field name in the query
+
+........//admin_settings.js
+
+	$(document).ready(function () {
+        $('.main_data').change(function () {
+            var selectedValues= $('.main_data:checked').map(function () {
+                return $(this).val();
+            }).get().join(',');
+
+            $('#maintenance_data').val(selectedValues);
+        });
+    });

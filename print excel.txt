@@ -1,0 +1,378 @@
+...........//views>reports>cus_wishes_list
+<table class="table table-bordered table-striped text-center " id="customer_list">
+
+......//customer.js
+
+set_customer_list(data)---->
+"buttons" : ['excel','print'],
+
+...........//dashboard.js
+var oTable = $('#customer_list').dataTable();
+		oTable.clear().draw();
+
+        if (accounts!= null && accounts.length > 0)
+
+        {
+
+        
+
+            oTable = $('#customer_list').dataTable({
+
+                
+
+				"bDestroy": true,
+
+				"bInfo": true,
+
+				"bFilter": true,
+
+				"bSort": true,
+
+				 "order": [[ 0, "desc" ]],
+				 "dom": 'Bfrtip',
+
+				 "buttons" : ['excel','print'],
+
+				"tableTools": { "buttons": [ { "sExtends": "xls", "oSelectorOpts": { page: 'current' } },{ "sExtends": "pdf", "oSelectorOpts": { page: 'current' } } ] },
+				"aaData": accounts,
+			});
+		}
+			
+
+
+...........//views>reports>detailed>payment
+<table id="sch_payment_list"class="table table-bordered table-striped text-center" >
+
+...........//dashboard.js
+set_scheme_payment_list(data)---->"buttons" : ['excel','print'],
+if(ctrl_page[1] == 'get_payment')
+{
+$('#sch_payment_list').dataTable({
+
+                                
+
+				"bDestroy": true,
+
+
+
+				"bInfo": true,
+
+
+
+				"bFilter": true,
+
+
+
+				"bSort": true,
+
+
+
+				"dom": 'lBfrtip',
+
+				
+
+				"buttons" : ['excel','print'],
+
+
+				   
+
+				 //"tableTools": { "buttons": [ { "sExtends": "xls", "oSelectorOpts": { page: 'current' } },{ "sExtends": "pdf", "oSelectorOpts": { page: 'current' } } ] },
+
+
+
+				//"aaData": accounts,
+
+
+
+				"order": [[ 0, "desc" ]],
+			});
+}
+
+...........//report/detailed/renewal
+	 <table id="sch_acc_list" class="table table-bordered table-striped text-center">
+
+...........//report.js,employee.js
+
+$('#sch_acc_list').dataTable({
+
+                                
+
+		"bDestroy": true,
+	
+	
+	
+		"bInfo": true,
+	
+	
+	
+		"bFilter": true,
+	
+	
+	
+		"bSort": true,
+	
+	
+	
+		"dom": 'lBfrtip',
+	
+		
+	
+		"buttons" : ['excel','print'],
+	
+	
+		   
+	
+		 "tableTools": { "buttons": [ { "sExtends": "xls", "oSelectorOpts": { page: 'current' } },{ "sExtends": "pdf", "oSelectorOpts": { page: 'current' } } ] },
+	
+	
+	
+		//"aaData": payments,
+	
+	
+	
+		"order": [[ 0, "desc" ]],
+	});
+
+............//dashboard.js
+	set_scheme_account_list(data)----->"buttons" : ['excel','print'],
+
+.........//search in customer.js
+	set_without_acc_cuslist(data)----->"buttons" : ['excel','print']
+............//general.js
+	$('#sch_acc_list').dataTable({
+
+                                
+
+		"bDestroy": true,
+	
+	
+	
+		"bInfo": true,
+	
+	
+	
+		"bFilter": true,
+	
+	
+	
+		"bSort": true,
+	
+	
+	
+		"dom": 'lBfrtip',
+	
+		
+	
+		"buttons" : ['excel','print'],
+	
+	
+		   
+	
+		 "tableTools": { "buttons": [ { "sExtends": "xls", "oSelectorOpts": { page: 'current' } },{ "sExtends": "pdf", "oSelectorOpts": { page: 'current' } } ] },
+	
+	
+	
+		"aaData": payments,
+	
+	
+	
+		"order": [[ 0, "desc" ]],
+	});
+if(ctrl_page[0] == 'customer')
+{
+$('#sch_acc_list').dataTable({
+
+
+                                
+
+				"bDestroy": true,
+
+
+
+				"bInfo": true,
+
+
+
+				"bFilter": true,
+
+
+
+				"bSort": true,
+
+
+
+				"dom": 'lBfrtip',
+
+				
+
+				"buttons" : ['excel','print'],
+
+
+				   
+
+				 "tableTools": { "buttons": [ { "sExtends": "xls", "oSelectorOpts": { page: 'current' } },{ "sExtends": "pdf", "oSelectorOpts": { page: 'current' } } ] },
+
+
+
+				//"aaData": accounts,
+
+
+
+				"order": [[ 0, "desc" ]],
+			});
+}
+
+............//reports/detailed/customer
+
+<table id="cus_details" class="table table-bordered table-striped text-center">
+
+..........//report.js
+
+	$('#cus_details').dataTable({
+
+        
+		"bDestroy": true,
+	
+	
+	
+		"bInfo": true,
+	
+	
+	
+		"bFilter": true,
+	
+	
+	
+		"bSort": true,
+	
+	
+	
+		"dom": 'lBfrtip',
+	
+		
+	
+		"buttons" : ['excel','print'],
+	
+		   
+	
+		"tableTools": { "buttons": [ { "sExtends": "xls", "oSelectorOpts": { page: 'current' } },{ "sExtends": "pdf", "oSelectorOpts": { page: 'current' } } ] },
+	
+		
+	
+	
+	
+		//"aaData": accounts,
+	
+	
+	
+		"order": [[ 0, "desc" ]]
+	});
+............//customer.js
+
+if(ctrl_page[0] == 'reports' || ctrl_page[0] == 'customer' )
+	{
+	$('#cus_details').dataTable({
+
+        
+		"bDestroy": true,
+	
+	
+	
+		"bInfo": true,
+	
+	
+	
+		"bFilter": true,
+	
+	
+	
+		"bSort": true,
+	
+	
+	
+		"dom": 'lBfrtip',
+	
+		
+	
+		"buttons" : ['excel','print'],
+	
+		   
+	
+		"tableTools": { "buttons": [ { "sExtends": "xls", "oSelectorOpts": { page: 'current' } },{ "sExtends": "pdf", "oSelectorOpts": { page: 'current' } } ] },
+	
+		
+	
+	
+	
+		//"aaData": accounts,
+	
+	
+	
+		"order": [[ 0, "desc" ]]
+	});
+}
+
+..............//views/about_to_close,closed_account
+
+<table id="closed_list" class="table table-bordered table-striped text-center" role="grid">
+
+.........//report,js
+$('#closed_list').dataTable({
+
+        
+		"bDestroy": true,
+	
+	
+	
+		"bInfo": true,
+	
+	
+	
+		"bFilter": true,
+	
+	
+	
+		"bSort": true,
+	
+	
+	
+		"dom": 'lBfrtip',
+	
+		
+	
+		"buttons" : ['excel','print'],
+	
+		   
+	
+		"tableTools": { "buttons": [ { "sExtends": "xls", "oSelectorOpts": { page: 'current' } },{ "sExtends": "pdf", "oSelectorOpts": { page: 'current' } } ] },
+	
+		
+	
+	
+	
+		//"aaData": accounts,
+	
+	
+	
+		"order": [[ 0, "desc" ]]
+	});
+
+............//check scheme_account.js use this word(closed_list);
+
+............//views/layout/footer
+
+	   <?php if($this->uri->segment(1)=='employee' || $this->uri->segment(1)=='admin_employee' || $this->uri->segment(1)=='admin_dashboard' || $this->uri->segment(1)=='reports'|| $this->uri->segment(1)=='customer'|| $this->uri->segment(1)=='account'){ ?>
+        <script src="<?php echo base_url('assets/js/employee.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo base_url(); ?>assets/plugins/date_picker/date_picker.js" type="text/javascript"></script>
+        <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/payment/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/payment/buttons.flash.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/payment/jszip.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/payment/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/payment/buttons.print.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/payment/vfs_fonts.js"></script>
+        <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/payment/pdfmake.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/date_picker.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+     <?php } ?>

@@ -1,0 +1,164 @@
+// Adding input fields in chit settings
+
+................//view file
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="form-group">
+			<h5 class="col-md-4">Block Payments (in mins)</h5>
+				<div class="col-md-4">
+					<input type="number" class="form-control" id="block_pay_mins" name="general[block_pay_mins]" value="<?php echo set_value(general[block_pay_mins],$general[block_pay_mins])  ?>" placeholder="eg:5"/>
+				</div>
+			<p class="help-block"></p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="form-group">
+			<h5 class="col-md-4">Payment Gateway Email</h5>
+				<div class="col-md-4">
+					<input type="text" class="form-control" id="pg_email" name="general[pg_email]" value="<?php echo set_value(general[pg_email],$general[pg_email])  ?>" placeholder=""/>
+				</div>
+			<p class="help-block"></p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="form-group">
+			<h5 class="col-md-4">Show Direct Pay</h5>
+				<div class="col-md-8">											
+				<div class="col-md-4">
+					<input type="radio" id="id_show_gcode_1" name="general[showDirectpay]" value="1"<?php if($general['showDirectpay'] == 1){ ?> checked="true" <?php } ?>> Yes
+				</div>
+		<div class="col-md-4">
+			<input type="radio" id="id_show_gcode_0" name="general[showDirectpay]"value="0" <?php if($general['showDirectpay'] == 0){ ?> checked="true" <?php } ?>> No
+		</div>
+		<p class="help-block"></p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="form-group">
+			<h5 class="col-md-4">Pin Required</h5>
+				<div class="col-md-8">											
+				<div class="col-md-4">
+					<input type="radio" id="id_show_gcode_1" name="general[is_pin_required]" value="1"<?php if($general['is_pin_required'] == 1){ ?> checked="true" <?php } ?>> Yes
+				</div>
+		<div class="col-md-4">
+					<input type="radio" id="id_show_gcode_0" name="general[is_pin_required]"value="0" <?php if($general['is_pin_required'] == 0){ ?> checked="true" <?php } ?>> No
+				</div>
+				<p class="help-block"></p>
+		</div>
+	</div>
+	</div>
+</div>
+.....................//admin_setting_model
+
+	Adding a "is_pin_required" field in SettingsDB function.
+	Adding a "block_pay_mins" field in SettingsDB function.
+	Adding a "pg_email" field in SettingsDB function.
+	Adding a "showDirectpay" field in SettingsDB function.	                                                  
+		                                             
+....................//admin_settings(controller)
+
+	Adding fields in "$config_dat" array in config_setupdate function:
+
+		'block_pay_mins' => (isset($general['block_pay_mins'])?$general['block_pay_mins']:NULL),
+		'pg_email' => (isset($general['pg_email'])?$general['pg_email']:NULL),
+		'showDirectpay' => (isset($general['showDirectpay'])?$general['showDirectpay']:0),										'is_pin_required' => (isset($general['is_pin_required'])?$general['is_pin_required']:0)  
+
+......................................4/10/2023
+//Adding new tab in general settings.
+
+<li><a href="#tab_Whatsapp" data-toggle="pill">Whatsapp Settings</a></li>
+
+	<div class="tab-pane" id = "tab_Whatsapp">
+					  	<div class="row">
+
+									<div class="col-sm-12">
+
+										<div class="form-group">
+
+										<label for="whats_app_url" class="col-md-3">Whatsapp URL</label>
+
+										<div class="col-md-4">
+
+											<input type="text" class="form-control" name="config[whats_app_url]" id="whats_app_url" value="<?php echo set_value(config[whats_app_url],$config[whats_app_url])  ?>" placeholder="eg:"  />
+
+											<p class="help-block"></p>
+
+										</div>
+
+										</div>
+
+									</div>
+
+			  					</div>
+						<div class="row">
+
+									<div class="col-sm-12">
+
+										<div class="form-group">
+
+										<label for="instance_id" class="col-md-3">Instance ID</label>
+
+										<div class="col-md-4">
+
+											<input type="text" class="form-control" name="config[instance_id]" id="instance_id" value="<?php echo set_value(config[instance_id],$config[instance_id])  ?>" placeholder="eg:"  />
+
+											<p class="help-block"></p>
+
+										</div>
+
+										</div>
+
+									</div>
+
+									</div>
+									<div class="box-footer clearfix">
+
+										<button class="btn btn-sm btn-app pull-left btn-cancel" type="button"><i class="fa fa-remove"></i> Cancel</button>
+
+										<button class="btn btn-sm btn-app pull-right" id="submit_whatsapp_tab" name="general[submit_whatsapp_tab]" value="Whatsapp Tab"><i class="fa fa-save"></i> Save</button>
+
+									</div> 
+															
+					</div>
+//adding fields in array
+	$config = $this->input->post('config');
+			  $gen_info = array(
+						'whats_app_url'   => (isset($config['whats_app_url'])?$config['whats_app_url']:NULL),
+						'instance_id'   => (isset($config['instance_id'])?$config['instance_id']:NULL)
+					);
+
+//service_model(mobile)
+
+	//creating function
+	function getConfigData()
+	{
+	    $sql = $this->db->query("SELECT * from configuration");
+	    return $sql->row_array();
+
+	$config_data = $this->getConfigData();
+        $whatsappurl = $config_data["whats_app_url"];
+        $instanceid = $config_data["instance_id"];
+
+//sms_model(mobile)
+
+
+	//creating function
+	function getConfigData()
+	{
+	    $sql = $this->db->query("SELECT * from configuration");
+	    return $sql->row_array();
+
+	$config_data = $this->getConfigData();
+        $whatsappurl = $config_data["whats_app_url"];
+        $instanceid = $config_data["instance_id"];
+
+	
+		  

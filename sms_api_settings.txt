@@ -1,0 +1,110 @@
+.........///SMS Gateway
+
+view(form)
+	<?php foreach($sms as $row)
+											{?> 
+
+														<?php if($row['id_sms_api']==1){?> 
+														<div class="page-header"><strong>MSG 91</strong></div>
+			
+														<div class="row">
+															<div class="form-group">
+																<label for="sms_sender_id" class="col-md-4 col-md-offset-1 ">Sender ID</label>
+																	<div class="col-md-4">
+																		<input type="text" class="form-control" name="sms[Msg91_id]" value="<?php echo isset($row['sms_sender_id']) ? $row['sms_sender_id'] : ''; ?>" maxlength="6" />
+																		<p class="help-block"></p>
+																	</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group">
+																<label for="sms_url" class="col-md-4 col-md-offset-1 ">SMS URL</label>
+																	<div class="col-md-6">
+																		<input type="text" class="form-control" name="sms[Msg91_url]" value="<?php echo isset($row['sms_url']) ? $row['sms_url'] :''; ?>"/>
+																		<p class="help-block"></p>
+																	</div>
+															</div>
+														</div>
+														
+											<?php }?>
+											<?php if($row['id_sms_api']==2){?> 
+														<div class="page-header"><strong>Netty Fish</strong></div>
+			
+														<div class="row">
+															<div class="form-group">
+																<label for="sms_sender_id" class="col-md-4 col-md-offset-1 ">Sender ID</label>
+																	<div class="col-md-4">
+																		<input type="text" class="form-control" name="sms[nettyfish_id]" value="<?php echo isset($row['sms_sender_id']) ? $row['sms_sender_id'] : ''; ?>" maxlength="6" />
+																		<p class="help-block"></p>
+																	</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group">
+																<label for="sms_url" class="col-md-4 col-md-offset-1 ">SMS URL</label>
+																	<div class="col-md-6">
+																		<input type="text" class="form-control" name="sms[nettyfish_url]" value="<?php echo isset($row['sms_url']) ? $row['sms_url'] :''; ?>"/>
+																		<p class="help-block"></p>
+																	</div>
+															</div>
+														</div>
+														
+											<?php }?>
+											<?php if($row['id_sms_api']==3){?> 
+														<div class="page-header"><strong>SpearUC</strong></div>
+			
+														<div class="row">
+															<div class="form-group">
+																<label for="sms_sender_id" class="col-md-4 col-md-offset-1 ">Sender ID</label>
+																	<div class="col-md-4">
+																		<input type="text" class="form-control" name="sms[SpearUC_id]" value="<?php echo isset($row['sms_sender_id']) ? $row['sms_sender_id'] : ''; ?>" maxlength="6" />
+																		<p class="help-block"></p>
+																	</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group">
+																<label for="sms_url" class="col-md-4 col-md-offset-1 ">SMS URL</label>
+																	<div class="col-md-6">
+																		<input type="text" class="form-control" name="sms[SpearUC_url]" value="<?php echo isset($row['sms_url']) ? $row['sms_url'] :''; ?>"/>
+																		<p class="help-block"></p>
+																	</div>
+															</div>
+														</div>
+														
+											<?php }?>
+											<?php }?>	
+
+
+							</div>
+........////controller(admin_settings)
+function (sms_api_settings)
+		
+		case 'Update':
+   	 		       $sms = $this->input->post('sms');
+					$msgdata = array(
+			       					'sms_sender_id'	  => $sms['Msg91_id'],
+			       					'sms_url'         => $sms['Msg91_url']
+			       				);
+					$update =	$this->$model->sms_apiDB('update',1,$msgdata);
+					$nettyFishdata = array(
+									'sms_sender_id'	  => $sms['nettyfish_id'],
+									'sms_url'         => $sms['nettyfish_url']
+								);
+					$update =	$this->$model->sms_apiDB('update',2,$nettyFishdata);
+					$spearUCdata = array(
+									'sms_sender_id'	  => $sms['SpearUC_id'],
+									'sms_url'         => $sms['SpearUC_url']
+								);			  
+				  	$update =	$this->$model->sms_apiDB('update',3,$spearUCdata);
+
+...............//////Model(admin_settings_model)
+function (sms_apiDB)
+
+	case 'update':
+					$this->db->where("gateway_type",$id);
+		           	$status = $this->db->update("sms_api_settings",$data);
+					//print_r(array('status' => $status, 'updateID' => $id););exit;
+				   	return	array('status' => $status, 'updateID' => $id);  
+					  		
+			  break;

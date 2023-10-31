@@ -1,0 +1,17 @@
+....//form
+
+	<div class="col-md-3">
+			<div class="form-group">
+			   <label>Show Chit Detail</label>
+				 <input type="text" class="form-control input_number"  id="chit_detail_days" name="sch[chit_detail_days]"  disabled value= "<?php echo set_value('sch[chit_detail_days]',$sch['chit_detail_days']); ?>" placeholder="Days count to show chit detail"/> 
+				<p class="help-block"></p>
+			</div> 
+......///Scheme.js
+	
+	$("#is_digi").on('change',function(){
+		if($('#is_digi').is(':checked')){
+		   $('#chit_detail_days,#ap_installment,#ap_maturity,#tot_payday_div,#daily_pay_limit').prop('disabled',false); 
+		}else{
+		   $('#chit_detail_days,#ap_installment,#ap_maturity,#tot_payday_div,#daily_pay_limit').prop('disabled',true);
+		}
+	   });

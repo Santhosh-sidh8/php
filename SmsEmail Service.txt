@@ -1,0 +1,40 @@
+..........//list.php
+
+	  <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Service</th>
+                        <th>Email</th>                                                 
+                        <th>SMS</th> 
+                        <th>Whatsapp</th>                      
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+..........///sms.js
+
+	{ "mDataProp": function ( row, type, val, meta ){
+										whatsapp_url =base_url+"index.php/admin_usersms/services_status/whatsapp/"+(row.serv_whatsapp==1?0:1)+"/"+row.id_services; 
+										return "<a href='"+whatsapp_url+"'><i class='fa "+(row.serv_whatsapp==1?'fa-check':'fa-remove')+"' style='color:"+(row.serv_whatsapp==1?'green':'red')+"'></i></a>"
+									}
+								},
+...........///admin_usersms.php
+
+	if($type == 'email')
+		{
+
+			$data = array('serv_email' => $status);
+
+		}
+
+		else if($type =='sms'){
+
+			$data = array('sms' => $status);
+
+		}
+		else{
+
+			$data = array('serv_whatsapp' => $status);
+
+		}
+
+	

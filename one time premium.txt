@@ -1,0 +1,139 @@
+............//create new file views/scheme/print/otp_print
+
+<html>
+	<head>
+		<title>
+			One Time Premium Print
+		</title>
+	</head>
+	<body>
+		
+	<div style="width: 100%;">
+    <div class="col-md-12" style="text-align: center;">
+	
+        <h1><?php echo $payment[0]['scheme_name'];?></h1>
+    </div>
+	
+    <div class="col-md-6" style="display: inline-block; width: 100%; padding-top: 60px; padding-left: 30px; ">
+	
+        <table class="col-md-12 table text-center">
+            <tr>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; white-space: nowrap;"><strong>Name</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 60%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['customer_name'])) {echo '-';} else {echo $customer['customer_name'];}  ?></td>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; padding-left: 150px; white-space: nowrap;"><strong>Id Proof</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 30%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['id_proof'])) {echo '-';} else {echo $customer['id_proof'];}  ?></td>
+            </tr>
+			<tr>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; white-space: nowrap;"><strong>Client Id</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 60%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['client_id'])) {echo '-';} else {echo $customer['client_id'];} ; ?></td>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; padding-left:150px; white-space: nowrap;"><strong>Nominee</strong></td>
+                <td class="table_heading" style="width: 5%; ">:</td>
+                <td class="table_data" style="width: 30%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['nominee_name'])) {echo '-';} else {echo $customer['nominee_name'];}  ?></td>
+            </tr>
+			<tr>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; white-space: nowrap;"><strong>Address 1</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 60%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['address1'])) {echo '-';} else {echo $customer['address1'];}  ?></td>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; padding-left:150px; white-space: nowrap;"><strong>Date of Joining</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 30%; padding-left: 10px; white-space: nowrap;"><?php echo $customer['start_date']; ?></td>
+            </tr>
+			<tr>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; white-space: nowrap;"><strong>Address 2</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 60%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['address2'])) {echo '-';} else {echo $customer['address2'];} ?></td>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; padding-left:150px; white-space: nowrap;"><strong>Date of Maturity</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 30%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['maturity_date'])) {echo '-';} else {echo $customer['maturity_date'];}  ?></td>
+            </tr>
+			<tr>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; white-space: nowrap;"><strong>Address 3</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 60%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['address3'])) {echo '-';} else {echo $customer['address3'];}  ?></td>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; padding-left:150px; white-space: nowrap;"><strong>Rate</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 30%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['fixed_metal_rate'])) {echo '-';} else {echo $customer['fixed_metal_rate'];}  ?></td>
+            </tr>
+			<tr>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; white-space: nowrap;"><strong>State</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 60%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['state'])) {echo '-';} else {echo $customer['state'];}  ?></td>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; padding-left:150px; white-space: nowrap;"><strong>Weight</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 30%; padding-left: 10px; white-space: nowrap;"><?php if (empty($payment[0]['metal_weight'])) {echo '-';} else {echo $payment[0]['metal_weight'];}  ?></td>
+            </tr>
+			<tr>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; white-space: nowrap;"><strong>City</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 60%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['city'])) {echo '-';} else {echo $customer['city'];}  ?></td>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; padding-left:150px; white-space: nowrap;"><strong>Salesman</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 30%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['salesman_name'])) {echo '-';} else {echo $customer['salesman_name'];}?> </td>
+            </tr>
+			<tr>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; white-space: nowrap;"><strong>Pincode</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 60%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['pincode'])) {echo '-';} else {echo $customer['pincode'];}  ?></td>
+                <td class="table_heading" style="width: 25%; padding-right: 50px; padding-left:150px; white-space: nowrap;"><strong>Mobile</strong></td>
+                <td class="table_heading" style="width: 5%; ">:</td>
+                <td class="table_data" style="width: 30%; padding-left: 10px; white-space: nowrap;"><?php if (empty($customer['mobile'])) {echo '-';} else {echo $customer['mobile'];}  ?></td>
+            </tr>
+        </table>
+    </div>
+	<hr>
+	<div style=" padding-bottom: 20px;">
+		<h4 style=" padding-left: 20px;">Payment Details</h4>
+		<table>
+			<tr>
+                <td class="table_heading" style="width: 25%; padding-left: 20px; white-space: nowrap;"><strong>Total Amount</strong></td>
+                <td class="table_heading" style="width: 5%;">:</td>
+                <td class="table_data" style="width: 30%;  white-space: nowrap;"><?php if (empty($payment[0]['payment_amount'])) {echo '-';} else {echo $payment[0]['payment_amount'];}  ?></td>
+			</tr>
+			<tr>
+                <td class="table_heading" style="width: 25%; padding-left: 20px;  white-space: nowrap;"><strong>Weight</strong></td>
+                <td class="table_heading" style="width: 5%; ">:</td>
+                <td class="table_data" style="width: 30%;  white-space: nowrap;"><?php if (empty($payment[0]['metal_weight'])) {echo '-';} else {echo $payment[0]['metal_weight'];}  ?></td>
+            </tr>
+		</table>
+	</div>
+	<hr>
+	<div style=" padding-bottom: 20px;">
+		<h4 style=" padding-left: 20px;">Terms</h4>
+		<ul>
+			<?php if (empty($payment[0]['description'])) {echo '-';} else {echo $payment[0]['description'];}  ?>
+		</ul>
+	</div>
+</div>
+
+
+
+	</body>
+</html>
+..........//scheme_account.js
+
+	In set_scheme_acct_list(data)
+	
+	after the print_url---->print_otp_url = base_url+'index.php/admin_manage/otp_print/'+id;
+	after the +print_passbook_url+---->'<li><a href="'+print_otp_url+'" target="_blank" class="btn-print"><i class="fa fa-print" ></i>Print OTP</a></li>'+
+
+........//create new function in admin_manage.php
+
+	function otp_print($id_scheme_account){
+	
+		$acc_model = self::ACC_MODEL;
+		$data['customer'] = $this->$acc_model->get_account_detail($id_scheme_account);
+		$data['payment']  = $this->$acc_model->get_ac_paid_details($id_scheme_account);
+		$this->load->helper(array('dompdf', 'file'));
+		$dompdf = new DOMPDF();
+		
+		if($data['customer']['one_time_premium']==1){
+			$html = $this->load->view('scheme/print/otp_print', $data,true);
+			$dompdf->load_html($html); 
+			$dompdf->set_paper("a4", "portrait" );
+			$dompdf->render();
+			$dompdf->stream("Passbook.pdf",array('Attachment'=>0));
+		}
+	}

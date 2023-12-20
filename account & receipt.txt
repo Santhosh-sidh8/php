@@ -1,0 +1,799 @@
+...........//admin_setting.js
+------------------------------------
+
+	//code added by Santhosh on 20-11-2023 starts....
+document.addEventListener('DOMContentLoaded', function() {
+	updateFieldList(); 
+
+	document.getElementById('3').addEventListener('change', function() {
+		updateFieldList();
+	});
+
+});
+
+function updateFieldList() {
+	// alert(1);
+	var selectedValue = document.getElementById('3').value;
+	var fieldList = document.getElementById('field_list');
+	fieldList.innerHTML = ''; 
+	switch (selectedValue) {
+		case '0':
+			// Common
+			addOption('acc_num', 'Scheme Account Number(122)');
+			break;
+		case '1':
+			// Common with branch wise
+			addOption('acc_num', 'Scheme Account Number(122)');
+			addOption('hyphen', 'Hyphen(-)');
+			addOption('br_code','Branch Code(BB)');
+			break;
+		case '2':
+			// Scheme Wise
+			addOption('sch_code', 'Scheme Code(SSS)');
+			break;
+		case '3':
+			// Scheme wise With Branch Wise
+			addOption('sch_code', 'Scheme Code(SSS)');
+			addOption('hyphen', 'Hyphen(-)');
+			addOption('br_code','Branch Code(BB)');
+			break;
+		case '4':
+			// Financial Year Wise
+			addOption('fin_yr', 'Financial Year(23)');
+			break;
+		case '5':
+			// Financial Year with Scheme Wise
+			addOption('fin_yr', 'Financial Year(23)');
+			addOption('hyphen', 'Hyphen(-)');
+			addOption('sch_code', 'Scheme Code(SSS)');
+			break;
+		case '6':
+			// Financial Year with Scheme & Branch Wise
+			addOption('fin_yr', 'Financial Year(23)');
+			addOption('sch_code', 'Scheme Code(SSS)');
+			addOption('hyphen', 'Hyphen(-)');
+			addOption('br_code','Branch Code(BB)');
+			break;
+
+		default:
+			addOption('br_code', 'Branch Code(BB)');
+			addOption('sch_code', 'Scheme Code(SSS)');
+			addOption('grp_code', 'Group Code(GG)');
+			addOption('fin_yr', 'Financial Year(23)');
+			addOption('acc_num', 'Scheme Account Number(122)');
+			addOption('hyphen', 'Hyphen(-)');
+			addOption('space', 'Space');
+			break;
+	}
+}
+
+function addOption(value, text) {
+	var option = document.createElement('option');
+	option.value = '@@' + value + '@@';
+	option.text = text;
+	document.getElementById('field_list').add(option);
+}
+document.addEventListener('DOMContentLoaded', function() {
+	updateReceiptFieldList();
+
+	document.querySelectorAll('input[name="general[scheme_wise_receipt]"]').forEach(function(radio) {
+		radio.addEventListener('change', function() {
+			updateReceiptFieldList();
+		});
+	});
+});
+
+function updateReceiptFieldList() {
+	var selectedValue = document.querySelector('input[name="general[scheme_wise_receipt]"]:checked').value;
+	var receiptFieldList = document.getElementById('field_receipt_list');
+	receiptFieldList.innerHTML = '';
+
+	// Add options based on the selected value
+	switch (selectedValue) {
+		case '1':
+			// Common
+			addOption1('acc_num', 'Scheme Account Number(122)');
+			break;
+		case '2':
+			// Branch-wise
+			addOption1('br_code','Branch Code(BB)');
+			break;
+		case '3':
+			// Scheme-wise
+			addOption1('sch_code', 'Scheme Code(SSS)');
+			break;
+		case '4':
+			// Scheme with Branch-wise
+			addOption1('sch_code', 'Scheme Code(SSS)');
+			addOption1('hyphen', 'Hyphen(-)');
+			addOption1('br_code','Branch Code(BB)');
+			break;
+		case '5':
+			// Financial Year-wise
+			addOption1('fin_yr', 'Financial Year(23)');
+			break;
+		case '6':
+			// Financial Year with Scheme & Branch-wise
+			addOption1('fin_yr', 'Financial Year(23)');
+			addOption1('sch_code', 'Scheme Code(SSS)');
+			addOption1('hyphen', 'Hyphen(-)');
+			addOption1('br_code','Branch Code(BB)');
+			break;
+		default:
+			addOption1('br_code', 'Branch Code(BB)');
+			addOption1('sch_code', 'Scheme Code(SSS)');
+			addOption1('grp_code', 'Group Code(GG)');
+			addOption1('fin_yr', 'Financial Year(23)');
+			addOption1('acc_num', 'Scheme Account Number(122)');
+			addOption1('hyphen', 'Hyphen(-)');
+			addOption1('space', 'Space');
+			break;
+	}
+}
+
+function addOption1(value, text) {
+	var option = document.createElement('option');
+	option.value = '@@' + value + '@@';
+	option.text = text;
+	document.getElementById('field_receipt_list').add(option);
+}
+//code added by Santhosh on 20-11-2023 ends....
+
+--------------------------------------------------------------------------------------------------------------------------
+..........//views->settings->general->form.php
+------------------------------------------------
+
+	<li><a href="#tab_acc_recpt" data-toggle="pill">Account & Receipt Settings</a></li>
+	
+
+	<div class="tab-pane" id="tab_acc_recpt">
+						<h4 class="page-header">Account & Receipt Settings</h4>	
+						<div class="row">
+
+								 
+
+										
+
+												<div class="form-group">
+
+													 
+
+											   <div class="col-md-12">
+
+												       <legend> <a  data-toggle="tooltip" title=" ">Receipt No. Generation</a></legend> 
+
+												       
+
+												     <div class="col-md-3">
+
+														<input type="radio" name="general[receipt_no_set]" value="0" <?php if($general['receipt_no_set'] == 0){ ?> checked="true" <?php } ?> > Manual
+
+													</div>
+
+													<div class="col-md-3">
+
+														<input type="radio" name="general[receipt_no_set]" value="1" <?php if($general['receipt_no_set'] == 1){ ?> checked="true" <?php } ?> > Automatic
+
+													</div>
+
+													<div class="col-md-3">
+
+														<input type="radio" name="general[receipt_no_set]" value="2" <?php if($general['receipt_no_set'] == 2){ ?> checked="true" <?php } ?> > Integration (Jilaba,...)
+
+													</div>	
+
+														<div class="col-md-3">
+
+														<input type="radio" name="general[receipt_no_set]" value="3" <?php if($general['receipt_no_set'] == 3){ ?> checked="true" <?php } ?> > Integration (Auto Sync)
+
+													</div>
+
+													<p class="help-block"></p>
+
+													
+
+												  </div>
+
+												</div>
+
+											 </div><br>
+
+							 	<div class="row">
+
+							 	    <div class="col-md-12"> 
+
+    									<div class="form-group">
+
+                                            <div class="col-md-3">
+
+                                                Receipt size :
+
+    										</div>
+
+    
+
+    									   <div class="col-md-3">
+
+    
+
+    											<input type="radio" name="general[receipt]" value="0" <?php if($general['receipt'] == 0){ ?> checked="true" <?php } ?> > Default(A4 Size)
+
+    
+
+    										</div>
+
+    
+
+    										<div class="col-md-3">
+
+    
+
+    											<input type="radio" name="general[receipt]" value="1" <?php if($general['receipt'] == 1){ ?> checked="true" <?php } ?> > Customized
+
+    
+
+    										</div>			   
+
+    
+
+    										<p class="help-block"></p>
+
+    
+
+    										
+
+    
+
+    									   </div>
+
+    									   <br><br>
+
+    									</div>
+
+											
+
+									 </div>
+
+									<div class="row">
+
+							 	    <div class="col-md-12"> 
+
+    									<div class="form-group">
+
+                                            <div class="col-md-3">
+
+                                            <label>Generate Receipt No. based on</label>
+
+                                            </div>
+
+                                            <div class="col-md-3">
+
+                                            <input type="radio" name="general[scheme_wise_receipt]" value="1" <?php if($general['scheme_wise_receipt'] == 1){ ?> checked="true" <?php } ?> > common 
+
+                                            </div>
+
+                                            <div class="col-md-3">
+
+                                            <input type="radio" name="general[scheme_wise_receipt]" value="2" <?php if($general['scheme_wise_receipt'] == 2){ ?> checked="true" <?php } ?> > Branch-wise
+
+                                            </div>
+
+                                            <div class="col-md-3">
+
+                                            <input type="radio" name="general[scheme_wise_receipt]" value="3" <?php if($general['scheme_wise_receipt'] == 3){ ?> checked="true" <?php } ?> > scheme-wise
+
+                                            </div>
+
+                                            <div class="col-md-3">
+
+                                            <input type="radio" name="general[scheme_wise_receipt]" value="4" <?php if($general['scheme_wise_receipt'] == 4){ ?> checked="true" <?php } ?> > scheme with Branch-wise
+
+                                            </div>
+
+                                            <div class="col-md-3">
+
+                                            <input type="radio" name="general[scheme_wise_receipt]" value="5" <?php if($general['scheme_wise_receipt'] == 5){ ?> checked="true" <?php } ?> > Financial Year-wise
+
+                                            </div>
+
+                                            <div class="col-md-3">
+
+                                            <input type="radio" name="general[scheme_wise_receipt]" value="6" <?php if($general['scheme_wise_receipt'] == 6){ ?> checked="true" <?php } ?> > Financial Year with Scheme & Branch wise
+
+                                            </div>
+
+                                            </div><br><br>
+
+                                            
+
+                                            <div class="col-md-3">
+
+                                            <label>Generate Group Wise Receipt No.</label>
+
+                                            </div>
+
+                                            <div class="col-md-3">
+
+                                            <input type="radio" name="general[group_wise_receipt]" value="1" <?php if($general['group_wise_receipt'] == 1){ ?> checked="true" <?php } ?> > Yes 
+
+                                            </div>
+
+                                            <div class="col-md-3">
+
+                                            <input type="radio" name="general[group_wise_receipt]" value="0" <?php if($general['group_wise_receipt'] == 0){ ?> checked="true" <?php } ?> > No 
+
+                                            </div>
+
+									 </div>
+
+									 </div>
+				<br><br>
+
+									 
+
+									 <!--Generate account  number  based on one more settings Integ Auto HH -->
+
+									 <div class="row">
+
+												<div class="form-group">
+
+													 
+
+												   <div class="col-md-12">
+
+												       <legend> <a  data-toggle="tooltip" title=" ">Scheme A/C No. Generation</a></legend> 
+
+ 
+
+												   <div class="col-md-3">
+
+														<input type="radio" name="general[schemeacc_no_set]" value="0" <?php if($general['schemeacc_no_set'] == 0){ ?> checked="true" <?php } ?> > Yes (Automatic)
+
+													</div>
+
+													<div class="col-md-3">
+
+														<input type="radio" name="general[schemeacc_no_set]" value="1" <?php if($general['schemeacc_no_set'] == 1){ ?> checked="true" <?php } ?> > No (Manual)
+
+													</div>
+
+													<div class="col-md-3">
+
+														<input type="radio" name="general[schemeacc_no_set]" value="2" <?php if($general['schemeacc_no_set'] == 2){ ?> checked="true" <?php } ?> > Integration (Jilaba,...)
+
+													</div>	
+
+														<div class="col-md-3">
+
+														<input type="radio" name="general[schemeacc_no_set]" value="3" <?php if($general['schemeacc_no_set'] == 3){ ?> checked="true" <?php } ?> > Integration (Auto Sync.)
+
+													</div>
+
+													<p class="help-block"></p>
+
+													
+
+												   </div>
+
+												</div><br><br>
+
+											 </div>
+
+											 <br>
+
+											 <div class="row">
+
+												<div class="col-md-4">
+
+										            <label>Generate Scheme Account No. based on   </label>
+
+										        </div>
+
+											    <div class="col-md-3">
+
+                                                    <select id="3" name="general[scheme_wise_acc_no]" class="form-control" >
+
+                                                        <option value="0" <?php if($general['scheme_wise_acc_no'] == 0){ ?> selected="true" <?php } ?>>Common</option>
+
+                                                        <option value="1" <?php if($general['scheme_wise_acc_no'] == 1){ ?> selected="true" <?php } ?>>Common with branch wise</option>
+
+                                                        <option value="2" <?php if($general['scheme_wise_acc_no'] == 2){ ?> selected="true" <?php } ?>>Scheme Wise</option>
+
+                                                        <option value="3" <?php if($general['scheme_wise_acc_no'] == 3){ ?> selected="true" <?php } ?>>Scheme wise With Branch Wise</option>
+
+                                                        <option value="4" <?php if($general['scheme_wise_acc_no'] == 4){ ?> selected="true" <?php } ?>>Financial Year Wise</option>
+
+                                                        <option value="5" <?php if($general['scheme_wise_acc_no'] == 5){ ?> selected="true" <?php } ?>>Financial Year with Scheme Wise</option>
+
+                                                        <option value="6" <?php if($general['scheme_wise_acc_no'] == 6){ ?> selected="true" <?php } ?>>Financial Year with Scheme & Branch Wise</option>                                                   
+
+                                                   	</select>
+
+                                                   	<br><br>
+
+												</div>
+
+											 </div>
+
+								                <br>
+ <div class="row">
+
+												<div class="form-group">
+
+													 
+
+												   <div class="col-md-12">
+
+												       <legend> <a  data-toggle="tooltip" title=" ">Client ID Generation</a></legend> 
+
+ 
+
+												   <div class="col-md-3">
+
+														<input type="radio" name="general[gent_clientid]" value="0" <?php if($general['gent_clientid'] == 0){ ?> checked="true" <?php } ?> > No 
+
+													</div>
+
+													<div class="col-md-3">
+
+														<input type="radio" name="general[gent_clientid]" value="1" <?php if($general['gent_clientid'] == 1){ ?> checked="true" <?php } ?> > Yes 
+
+													</div>
+
+														   
+
+													<p class="help-block"></p>
+
+													
+
+												   </div>
+
+												</div><br><br>
+
+											 </div>
+											 <div class="row">
+
+										<div class="form-group">
+
+											
+
+											<div class="col-md-12">
+
+												<legend> <a  data-toggle="tooltip" title="">Receipt No. Display Format</a></legend> 
+
+												<input type="hidden" id="display_receipt_format"  value="<?php echo $general['receiptNo_displayFrmt'] ?>" />
+
+												<div class="col-md-3">
+
+													<input type="radio" name="general[receiptNo_displayFrmt]" value="0" <?php if($general['receiptNo_displayFrmt'] == 0){ ?> checked="true" <?php } ?> > Only Receipt Number
+
+												</div>
+
+												<!-- <div class="col-md-3">
+
+													<input type="radio" name="general[receiptNo_displayFrmt]" value="1" <?php if($general['receiptNo_displayFrmt'] == 1){ ?> checked="true" <?php } ?> > Based on Rcpt No Settings
+
+												</div> -->
+
+												<div class="col-md-3">
+
+													<input type="radio" name="general[receiptNo_displayFrmt]" value="2" <?php if($general['receiptNo_displayFrmt'] == 2){ ?> checked="true" <?php } ?> > Customized
+
+												</div>	
+
+													
+
+												<p class="help-block"></p>
+
+											
+
+											</div>
+
+										</div><br><br>
+
+                				</div>		
+
+                				 
+
+                			<br><br>
+
+							<input type="hidden" id="rcpt_format_hidden" name="general[receiptNo_format]" />
+
+							
+
+							
+
+							<div class="row" id="rcpt_num_block" style="display:none;">
+
+
+
+								<div class="form-group">
+
+
+
+									<label class="control-label col-sm-2 ">Receipt Number Format Customization</label>
+
+
+
+									<div class="col-sm-4 ">
+
+										<select style="height: 150px;" class="form-control" size="11" id="selected_receipt_field_list" name="selected_receipt_field_list">
+
+										<?php if(count($selected_receipt_num_fields)>0){ ?>
+
+										<?php foreach($selected_receipt_num_fields as $field){ ?>
+
+
+
+												<option value="@@<?php echo $field['value']?>@@"><?php echo $field['text']?></option>
+
+
+
+
+
+
+
+												<?php } } ?>
+
+											</select>	
+
+										<span class="help-block">choose/Remove the Receipt Number Fields.</span>
+
+										<span style="font-weight:bold;">Format  </span><span id="display_rcpt_span" style="font-weight:bold;color:red;"></span>	
+
+										</div>
+
+
+
+										<div  class="col-sm-1">
+
+
+
+										<div  class="btn-group" data-toggle="buttons">
+
+
+
+											<label onclick="revertReceiptFormat()" style="margin-top: 30px;" class="btn btn-primary">
+
+
+
+												<a style="color:#FFFFFF; text-decoration:none" href="" id="revert_receipt_button" name="revert_receipt_button" title="click"> >> </a>
+
+
+
+											</label>
+
+											<label onclick="insertReceiptFormat()" style="margin-top: 30px;" class="btn btn-primary">
+
+
+
+												<a style="color:#FFFFFF; text-decoration:none" href="" id="move_receipt_button" name="move_receipt_button" title="click"> << </a>
+
+
+
+											</label>
+
+
+
+											</div>
+
+											
+
+									</div>
+
+									
+
+									<div class="col-sm-3">
+
+
+
+										<select style="height: 150px;" class="form-control" size="11" id="field_receipt_list" name="field_receipt_list">
+
+
+
+										
+
+
+
+
+
+										</select>	
+
+
+
+										<span class="help-block">Select  the value.</span>									
+
+									</div>
+
+
+
+													
+
+
+
+								</div>
+
+								
+
+							</div>
+
+							
+
+								
+
+							<div class="row">
+
+								<div class="form-group">
+
+									<div class="col-md-12">
+
+										<legend> <a  data-toggle="tooltip" title="">Scheme A/C No. Display Format</a></legend> 
+
+										<input type="hidden" id="display_format"  value="<?php echo $general['schemeaccNo_displayFrmt'] ?>" />
+
+									<div class="col-md-3">
+
+											<input type="radio" name="general[schemeaccNo_displayFrmt]" value="0" <?php if($general['schemeaccNo_displayFrmt'] == 0){ ?> checked="true" <?php } ?> > Only Account Number
+
+										</div>
+
+										<!-- <div class="col-md-3">
+
+											<input type="radio" name="general[schemeaccNo_displayFrmt]" value="1" <?php if($general['schemeaccNo_displayFrmt'] == 1){ ?> checked="true" <?php } ?> > Based on Acc No Settings
+
+										</div> -->
+
+										<div class="col-md-3">
+
+											<input type="radio" name="general[schemeaccNo_displayFrmt]" value="2" <?php if($general['schemeaccNo_displayFrmt'] == 2){ ?> checked="true" <?php } ?> > Customized
+
+										</div>	
+
+											
+
+										<p class="help-block"></p>
+
+										
+
+							   	</div><br><br>
+
+							</div>
+
+							<br><br>
+
+							<input type="hidden" id="acc_format_hidden" name="general[schemeaccNo_format]" />
+
+							
+
+							
+
+							<div class="row" id="ac_num_block" style="display:none;">
+
+
+
+								<div class="form-group">
+
+
+
+									<label class="control-label col-sm-2 ">Account Number Format Customization</label>
+
+
+
+									<div class="col-sm-4 ">
+
+
+
+										<!-- <textarea class="form-control" name="general[custom_AccDisplayFrmt]" id="custom_AccDisplayFrmt" cols="35" rows="5" tabindex="4" >
+
+
+
+										
+
+										</textarea> -->
+
+											<select style="height: 150px;" class="form-control" size="11" id="selected_field_list" name="selected_field_list">
+
+												<?php foreach($selected_acc_num_fields as $field){ ?>
+
+
+
+													<option value="@@<?php echo $field['value']?>@@"><?php echo $field['text']?></option>
+
+												<?php } ?>
+
+											</select>	
+
+										<span class="help-block">choose/Remove the A/c Number Fields.</span>
+
+										<span style="font-weight:bold;">Format  </span><span id="display_acc_span" style="font-weight:bold;color:red;"></span>	
+
+										</div>
+
+
+
+										<div  class="col-sm-1">
+
+
+
+										<div  class="btn-group" data-toggle="buttons">
+
+
+
+											<label onclick="revertFormat()" style="margin-top: 30px;" class="btn btn-primary">
+
+
+
+												<a style="color:#FFFFFF; text-decoration:none" href="" id="revert_button" name="revert_button" title="click"> >> </a>
+
+
+
+											</label>
+
+											<label onclick="insertFormat()" style="margin-top: 30px;" class="btn btn-primary">
+
+
+
+												<a style="color:#FFFFFF; text-decoration:none" href="" id="move_button" name="move_button" title="click"> << </a>
+
+
+
+											</label>
+
+
+
+											</div>
+
+
+
+									</div>
+
+
+
+									<div class="col-sm-3">
+
+
+
+										<select style="height: 150px;" class="form-control" size="11" id="field_list" name="field_list">
+
+
+
+										
+
+
+
+									
+
+
+
+										</select>	
+
+
+
+										<span class="help-block">Select  the value.</span>	
+
+																		
+
+									</div>
+
+
+
+															
+
+
+
+								</div>
+
+								
+
+							</div>
+
+						</div>
+						<div class="box-footer clearfix">
+
+							<button class="btn btn-sm btn-app pull-left btn-cancel" type="button"><i class="fa fa-remove"></i> Cancel</button>
+
+							<button class="btn btn-sm btn-app pull-right"><i class="fa fa-save"></i> Save</button>
+
+						</div>
+				
+					</div>

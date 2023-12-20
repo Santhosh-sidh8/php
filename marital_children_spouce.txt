@@ -1,0 +1,507 @@
+field creation query
+------------------------------------
+1.ALTER TABLE `customer_childrens` ADD `created_on` DATETIME NOT NULL AFTER `children_dob`, ADD `created_by` INT(11) NULL DEFAULT NULL AFTER `created_on`;(In customer_children Table)
+2.ALTER TABLE `customer` ADD `marital_status` INT(11) NULL DEFAULT NULL COMMENT '1 -> Single, 2 -> Married' AFTER `spouse_dob`;(In customer Table)
+	
+views->master->customer->form
+------------------------------------------
+	
+	after Taluk input field
+	-------------------------------
+			
+		<div class="row">
+							     <div class="col-sm-4">
+							      	 <div class='form-group'>
+							      <label for="pincode">Pincode</label>
+							     <input class="form-control input_number" id="pincode" name="customer[pincode]" value="<?php echo set_value('customer[pincode]',$customer['pincode']); ?>"   type="text" />
+							  </div>
+							     </div>
+								  <?php if($this->session->userdata('branch_settings')==1 && $this->session->userdata('is_branchwise_cus_reg')==1  ){?>
+								<div class="col-sm-4">
+								<div class="form-group">
+								 <label>Filter By Branch <span class="error">* </label>
+    								<select required id="branch_select" class="form-control"></select>
+    								<input id="id_branch" name="customer[id_branch]"  type="hidden" value="<?php echo set_value('customer[id_branch]',$customer['id_branch']);?>"   />
+    							         </div>
+										  </div>
+								  <?php }?>
+								  		<div class="col-sm-4">
+											<div class="form-group">
+												<label for="" ><a  data-toggle="tooltip" title="Select branch to create Scheme Account"> Select Religion</a></label>
+												<select  id="religion_select" class="form-control" name="customer[religion]" >
+												<option value=""> Select Religion Name</option>
+												<option value="1" <?php echo ($customer['religion']==1 ? 'selected' :'')?>>Hindu</option>
+												<option value="2" <?php echo ($customer['religion']==2 ? 'selected' :'')?>>Muslim</option>
+												<option value="3" <?php echo ($customer['religion']==3 ? 'selected' :'')?>>Christian</option>
+												</select>
+												<input type="hidden"  id="religion" value="<?php echo set_value('customer[religion]',$customer['religion']);?>">
+											</div>
+										</div>
+										<div class="col-sm-4">
+								      		<div class='form-group'>
+												<label for="gender">Gender <span class="error">*</span></label>
+												<div class="form-group">
+													<p class="help-block"></p>
+													<input type="radio"  name="customer[gender]" value="0" class="minimal" <?php if($customer['gender']==0){ ?> checked <?php } ?> required/> Male
+
+													<input type="radio"   name="customer[gender]" value="1" class="minimal" <?php if($customer['gender']==1){ ?> checked <?php } ?>/> Female
+
+													<input type="radio"   name="customer[gender]" value="3" class="minimal" <?php if($customer['gender']==3){ ?> checked <?php } ?>/> Others
+												</div>
+								            </div>
+								        </div>
+							      </div>
+
+							      	<div class="row">
+										<div class='col-sm-4'>
+											<div class='form-group'>
+												<label for="date_of_birth">Date of Birth</label>
+												<input class="form-control datemask"  data-date-format="dd-mm-yyyy" id="date_of_birth" name="customer[date_of_birth]" value="<?php echo set_value('customer[date_of_birth]',$customer['date_of_birth']); ?>" type="text" />
+											</div>
+										</div>
+										<div class='col-sm-4'>
+											<div class='form-group'>
+												<label for="age">Age</label>
+												<input class="form-control " id="age" name="customer[age]" required="true" size="30" readonly="true" type="text" value="<?php echo set_value('customer[age]',$customer['age']); ?>"/>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class='form-group'>
+												<label for="marital_status">Marital Status <span class="error">*</span></label>
+												<div class="form-group">
+													<p class="help-block"></p>
+													&nbsp; 
+													<input type="radio" id="marry_status_single"  name="customer[marital_status]" value="1" class="minimal" <?php if($customer['marital_status']==1){ ?> checked <?php } ?> />  <label for="marry_status_single">Single</label>
+													&nbsp; 
+													<input type="radio" id="marry_status_married" name="customer[marital_status]" value="2" class="minimal" <?php if($customer['marital_status']==2){ ?> checked <?php } ?>/> <label for="marry_status_married">Married</label>
+													&nbsp; 
+													<input type="radio" id="marry_status_other" name="customer[marital_status]" value="3" class="minimal" <?php if($customer['marital_status']==3){ ?> checked <?php } ?>/> <label for="marry_status_other">Others</label>
+												</div>
+											</div>
+										</div>
+							     	</div>
+								  	<div class="row">
+										<div class='col-sm-4 marital_details'>
+											<div class='form-group'>
+												<label for="spouse_name">Spouse Name</label>
+												<input type="text" class="form-control" id="spouse_name" name="customer[spouse_name]" value="<?php echo set_value('customer[spouse_name]',$customer['spouse_name']); ?>"/>
+											</div>
+										</div>
+										<div class="col-sm-4 marital_details">
+											<div class='form-group'>
+												<label for="spouse_dob">Spouse DOB</label>
+												<input type="text" class="form-control datemask"  data-date-format="dd-mm-yyyy" id="spouse_dob" name="customer[spouse_dob]" value="<?php echo set_value('customer[spouse_dob]',$customer['spouse_dob']); ?>" />
+											</div>
+										</div>
+										<div class='col-sm-4 marital_details'>
+											<div class='form-group'>
+												<label for="date_of_wed ">Wedding Date</label>
+												<input class="form-control datemask"  data-date-format="dd-mm-yyyy" id="date_of_wed" name="customer[date_of_wed]" value="<?php echo set_value('customer[date_of_wed]',$customer['date_of_wed']); ?>" type="text" />
+											</div>
+										</div>
+								  	</div>
+								</div>
+
+
+
+							    <div class="row">	  
+
+
+
+							      <div class="col-sm-4">
+
+
+
+							        <div class='form-group'>
+
+
+
+							                 <input id="cus_image" name="cus_img" accept="image/*" type="file" >
+
+
+
+											 <img src="<?php echo base_url((isset($customer['cus_img_path'])?$customer['cus_img_path']:'assets/img/default.png')); ?>" class="img-thumbnail" id="cus_img_preview" style="width:175px;height:100%;" alt="Customer image"> 
+
+
+
+											 <input type="hidden" name="customer[customer_img]" value="<?php echo set_value('customer[customer_img]',$customer['cus_img'])?>" />      
+
+
+
+							      	</div>
+
+
+
+							      	<?php if(isset($customer['cus_img_path']) && $customer['id_customer']!=null){?>
+
+
+
+							      	  <a class="btn bg-purple btn-sm"  href="<?php echo base_url('index.php/customer/dload/'.$customer['id_customer'].'/customer');?>" ><i class="fa fa-download"></i> Download</a>
+
+
+
+							      	  <?php } ?>
+
+
+
+							      	 
+
+
+
+							      </div>
+						      
+
+								<div class="col-sm-8 marital_details">
+									<div class="col-sm-12 children_heading">
+										<h4>Add Childrens ( <i class="fa fa-plus add_children" aria-hidden="true"></i> )</h4>
+									</div>
+									<div class="children_details">
+										
+									</div>
+								</div>
+								      
+
+
+
+							      </div>
+
+
+
+							    	
+
+
+
+						  </div>
+
+	customer.js
+	----------------------
+
+	$('input[type=radio][name="customer[marital_status]"]').change(function() {
+
+	on_marital_status_change(this.value);
+
+});
+
+/**
+ * 
+ * @param {number} value 
+ */
+function on_marital_status_change(value) {
+
+	if (value == 1) {
+
+		$(".marital_details").css("display","none");
+
+	} else if (value == 2 || value == 3) {
+
+		$(".marital_details").css("display","block");
+		
+	}
+
+}
+
+/**
+ * Date picker for spouse DOB
+ */
+if($('#spouse_dob').length > 0) {
+	
+	$('#spouse_dob').datepicker({
+
+        format: 'dd/mm/yyyy'
+
+	}).on('changeDate', function(ev){
+
+		$(this).datepicker('hide');
+
+	});
+
+}
+
+/**
+ * Add's new row by calling a function
+ */
+$(document).on("click",".add_children",function() {
+
+	add_new_children();
+
+});
+
+/**
+ * Removes current clicked row of children
+ */
+$(document).on("click",".remove_children",function() {
+
+	$(this).closest('.children').remove();
+
+	add_remove_buttons();
+
+});
+
+/**
+ * Add's new children row, while checking previous row is validated or not
+ * 
+ * @param {object} children 
+ * 
+ */
+function add_new_children(children = {}) {
+
+	/**
+	 * Validating rows before adding a new row
+	 */
+	let is_validated = validate_children();
+
+	if(is_validated) {
+
+		let name = typeof children.children_name !== "undefined" ? children.children_name : "";
+
+		let dob = typeof children.children_dob !== "undefined" ? children.children_dob : "";
+
+		let new_children = `<div class="col-md-12 children">
+								<div class="col-sm-5">
+									<div class='form-group'>
+										<label for="spouse_name">Children Name</label>
+										<input type="text" class="form-control children_name" name="customer[children][name][]" value="`+name+`" />
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class='form-group'>
+										<label for="spouse_name">Children DOB</label>
+										<input type="text" class="form-control children_dob datemask" name="customer[children][dob][]" data-date-format="dd-mm-yyyy" value="`+dob+`" readonly/>
+									</div>
+								</div>
+								<div class="col-sm-2">
+									<div class='form-group add_remove_buttons' style="padding-top: 25px">
+
+									</div>
+								</div>
+							</div>`;
+
+		$(".children_details").append(new_children);
+
+		/**
+		 * Date Picker for children DOB
+		 */
+		let children_dob = $(".children:last").find('.children_dob');
+
+		$(children_dob).datepicker({
+
+			format: 'dd/mm/yyyy'
+	
+		}).on('changeDate', function(ev){
+	
+			$(this).datepicker('hide');
+	
+		});
+
+		/**
+		 * Given common add and remove buttons using function 
+		 */
+		add_remove_buttons();
+
+	}
+
+}
+
+/**
+ * 
+ * @returns Rows validated or not. If validated return true or else false
+ */
+function validate_children() {
+
+	let validate_status = true;
+
+	$('.children').each(function(i, obj) {
+
+		let name = $.trim($(obj).find('.children_name').val());
+
+		if(name == "") {
+			
+			$.toaster({ priority : 'danger', title : 'Warning!', message : ''+"</br>"+'Children name is required!'});
+
+			validate_status = false;
+
+			return false;
+
+		}
+
+	});
+
+	return validate_status;
+
+}
+
+/**
+ * Add button for last row, Delete buttons for all rows
+ */
+function add_remove_buttons() {
+
+	$(".children").find('.add_children').remove();
+
+	$(".children").find('.remove_children').remove();
+
+	$(".children:last").find(".add_remove_buttons").prepend('<button type="button" class="btn btn-success add_children"><i class="fa fa-plus"></i></button>');
+
+	$(".children").find(".add_remove_buttons").append('<button type="button" class="btn btn-danger remove_children"><i class="fa fa-trash"></i></button>');
+
+}
+
+
+	after this condition(if(ctrl_page[1]=='withoutAccount'){})
+
+		else if(ctrl_page[0]=='customer' && ctrl_page[1]=='add') {
+
+			add_new_children();
+	
+			on_marital_status_change(1);
+	
+		} else if(ctrl_page[0]=='customer' && ctrl_page[1]=='edit') {
+	
+			let marital_status = $('input[name="customer[marital_status]"]:checked').val();
+	
+			on_marital_status_change(marital_status);
+	
+			console.log(childrens.length);
+	
+			if(childrens.length > 0) {
+	
+				$.each(childrens, function (key, data) {
+	
+					add_new_children(data);
+	
+				});
+	
+			}
+	
+		}
+
+	admin_customer.php
+	---------------------------
+
+	function cus_post()
+	-----------------------	
+		case:Add,case:edit
+			add this into $cus_data Array
+			---------------------------------
+			'marital_status'	=>  ($cus['marital_status']!='' ?$cus['marital_status'] :NULL),
+							'spouse_name'		=>  ($cus['spouse_name']!='' ?$cus['spouse_name'] :NULL),
+							'spouse_dob'		=>	(isset($cus['spouse_dob']) && $cus['spouse_dob']!=''? date('Y-m-d',strtotime(str_replace("/","-",$cus['spouse_dob']))): NULL),
+------------------------------------------------------------------------------------------------------------------------------------
+		case:edit
+		----------
+	inside the condition if( $id > 0){
+
+		$this->$model->deleteData('cus_id',$id,'customer_childrens');
+
+						if($cus['marital_status'] == 2 || $cus['marital_status'] == 3) {
+
+							foreach($cus['children']['name'] as $chd_key => $chd_value) {
+
+								$children_name = trim($cus['children']['name'][$chd_key]);
+								
+								$children_dob = isset($cus['children']['dob'][$chd_key]) && $cus['children']['dob'][$chd_key] !='' ? date('Y-m-d',strtotime(str_replace("/","-",$cus['children']['dob'][$chd_key]))): NULL;
+
+								if($children_name != "") {
+
+									$children_data = array(
+										'cus_id'		=> $cus_id,
+										'children_name' => $children_name,
+										'children_dob'	=> $children_dob,
+										'created_on'	=> date("Y-m-d H:i:s"),
+										'created_by'	=> $this->session->userdata('uid')
+									);
+
+									$this->$model->insertData($children_data,'customer_childrens');
+
+								}
+
+							}
+
+						}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+	case:add
+
+		inside the condition if( $id > 0){
+
+
+		if($cus['marital_status'] == 2 || $cus['marital_status'] == 3) {
+
+							foreach($cus['children']['name'] as $chd_key => $chd_value) {
+								
+								$children_name = trim($cus['children']['name'][$chd_key]);
+								
+								$children_dob = isset($cus['children']['dob'][$chd_key]) && $cus['children']['dob'][$chd_key] !='' ? date('Y-m-d',strtotime(str_replace("/","-",$cus['children']['dob'][$chd_key]))): NULL;
+
+								if($children_name != "") {
+
+									$children_data = array(
+										'cus_id'		=> $cus_id,
+										'children_name' => $children_name,
+										'children_dob'	=> $children_dob,
+										'created_on'	=> date("Y-m-d H:i:s"),
+										'created_by'	=> $this->session->userdata('uid')
+									);
+
+									$this->$model->insertData($children_data,'customer_childrens');
+
+								}
+
+							}
+
+						}
+
+
+	customer_model.php
+	----------------------------
+
+	Add the function	
+
+	public function insertData($data,$table)
+
+    {
+
+    	$insert_flag = 0;
+
+		$insert_flag = $this->db->insert($table, $data);
+
+		return ($insert_flag == 1 ? $this->db->insert_id(): 0);
+
+	}
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+	function cust_form()
+
+		case:edit
+
+		Array---$data['customer']
+
+			'marital_status'	=>  (isset($cus['marital_status']) ?$cus['marital_status'] :NULL),
+								'spouse_name'		=>  (isset($cus['spouse_name']) ?$cus['spouse_name'] :NULL),
+								'spouse_dob'		=>	(isset($cus['spouse_dob']) && $cus['spouse_dob']!=''? date('d/m/Y',strtotime(str_replace("/","-",$cus['spouse_dob']))): NULL),
+
+
+
+..................///Edit
+-----------------------------------------
+
+	customer/form.php
+	----------------------
+		
+		<script type="text/javascript">
+    var cust_id ="<?php echo $customer['id_customer']; ?>";   
+    var mob_no_len ="<?php echo $this->session->userdata('mob_no_len')?>";
+	let childrens = <?php echo json_encode($customer['children']) ?>;   
+  </script>
+
+	customer_model.php
+	--------------------------------
+
+	public function deleteData($id_field,$id_value,$table) {
+
+        $this->db->where($id_field, $id_value);
+
+        $status= $this->db->delete($table); 
+
+		return $status;
+
+	}

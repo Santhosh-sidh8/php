@@ -1,0 +1,61 @@
+TASK:1(Need to set non mandatory for General Advance Settings)
+
+views->master->scheme->form.php
+-------------------------------------------
+
+	Remove required attribute in the input fields(Minimum Amount,Maximum Amount,Denomination)
+-----------------------------------------------------------------------------------------------------------
+
+Scheme.js
+-----------
+	
+	$("#allow_general_advance").change(function(){
+        updateRequiredState();
+    });
+
+    function updateRequiredState() {
+        // Get the checkbox state
+        var isChecked = $("#allow_general_advance").prop("checked");
+
+        // Set the required attribute based on the checkbox state
+		if(isChecked != true){
+        $("#adv_min_amt,#adv_max_amt,#adv_denomination").prop("required", isChecked);
+		}else{
+			$("#adv_min_amt,#adv_max_amt,#adv_denomination").prop("required", isChecked);
+		}
+    }
+---------------------------------------------------------------------------------------------------------------
+
+TASK:2(First time when i delete and reenter the DOB it's not working and that time age showing NAN)
+
+Customer.js
+-------------
+
+	Replace the function(calculateAge(selectedDate)) with the below code
+	
+		function calculateAge(selectedDate) {
+				if (selectedDate) {
+				  // Check for a valid date format (MM/DD/YYYY)
+				  var dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+				  if (!dateRegex.test(selectedDate)) {
+					console.error("Invalid date format. Expected format: MM/DD/YYYY");
+					return;
+				  }
+			  
+				  var today = new Date();
+				  var dateParts = selectedDate.split('/');
+				  var dob_year = dateParts[2];
+				  var age = today.getFullYear() - dob_year;
+			  
+				  $("#age").val(age);
+				}
+			  }
+-----------------------------------------------------------------------------------------------------------------
+TASK:3()
+
+admin_scheme.php
+------------------
+	if($res && (isset($sch_data['update_gst']) ? $sch_data['update_gst'] == 1 : FALSE) )
+
+	change the FALSE into TRUE.
+-----------------------------------------------------------------------------------------------------

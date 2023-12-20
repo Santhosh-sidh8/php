@@ -1,0 +1,429 @@
+Adding status filter,search by mobile and Remark...
+------------------------------------------------------------------------------
+
+views/payment/list.php...
+------------------------------------
+
+After to(filter by employee)
+------------------------------
+	<div class="col-md-2">
+    							         <?php if($this->session->userdata('branch_settings')==1 && $this->session->userdata('id_branch')==0){?>
+    										<div class="form-group">
+    										    <label>Filter By Status</label>
+    											<select id="status_select" class="form-control" ></select>
+    											<input id="id_status" name="scheme[id_status]" type="hidden" value=""/>
+    										</div>
+    							       <?php }?>
+    							    </div>
+-----------------------------------------------------------------------------------------------------------
+After to(Search transactions)
+------------------------------
+
+	<div class="col-md-2">
+										<div class="form-group">
+											<div class="form-group">
+											<label>Search by mobile</label>
+											<input type="text" placeholder="Mobile Number" class="form-control" name="" id="mobilenumber" >
+											<input type="hidden" name="customer_id" id="customer_id"/> 
+											</div>
+									</div>  
+									</div>
+------------------------------------------------------------------------------------------------------------------
+<div class="modal fade" id="edit_payment1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 50%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Edit Remark</h4>
+                    </div>
+                    
+                    <form id="update_pay_form"  method="post">
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                    <div class='form-group'>
+                                        <label for="remark">Remark</label>
+                                            <textarea style="width: 100%;height:63px;" class="remark" id="remark1" name="remark" placeholder="Remark" value=""></textarea>
+                                    </div>
+                            </div><br>               
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" id="update_payment1" class="btn btn-success" onclick="" style="padding: 10px 25px;" type='submit' name='update_payment'>Update</a>
+                            <button type="button" class="btn btn-danger" style="padding: 10px 25px;" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</div>
+-------------------------------------------------------------------------------------------------------------------
+
+Payment.js
+-------------
+add (id_status,id_customer) as a parameter on respective get_payment_list() 
+add('id_status':id_status,'id_customer':id_customer,) in ajax data:{} in get_payment_list()
+--------------------------------------------------------------------------
+Add
+	var id_status=$('#id_status').text();
+	var id_customer = $('#customer_id').val();
+	
+	in onchange function of(#employee_select,#date_Select,#branch_select)
+----------------------------------------------------------------------------------
+
+$('#status_select').on('change',function(e){
+
+
+
+	if(this.value!='')
+
+
+
+	{
+
+
+
+		$("#id_status").val(this.value);
+
+		$
+
+	}
+
+
+
+	else
+
+
+
+	{
+
+
+
+		$("#id_status").val('');
+
+
+
+	}
+
+
+
+	});
+
+ $('#status_select').select2().on("change", function(e) {
+
+
+
+	if(this.value!='')
+
+
+
+	{  
+
+
+
+	 $('#id_status').val(this.value);
+
+
+
+	var from_date = $('#payment_list1').text();
+
+
+
+	var to_date  = $('#payment_list2').text();
+
+
+
+	var id_branch  = $('#id_branch').text();
+
+
+	var id_employee=$('#id_employee').text();
+
+	var id_status=$(this).val();
+	var id_customer = $('#customer_id').val();
+	
+
+
+
+	get_payment_list(from_date,to_date,id_branch,id_employee,id_status,id_customer);
+
+
+
+	}
+	});
+	function get_status(){	
+
+			//$(".overlay").css('display','block');	
+
+			$.ajax({		
+
+				type: 'GET',		
+
+				url: base_url+'index.php/admin_employee/get_status',		
+
+				dataType:'json',		
+
+				success:function(data){				 
+					// console.log(data);
+					var id_status =  $('#id_status').val();
+
+					// console.log(id_status);
+
+					
+				
+
+						// var sch_join_branch =  $('#sch_join_branch').val();		   
+
+				$.each(data, function (key, item) {	
+					// console.log(item.id_status);				  				  			   		
+
+			   $('#status_select').append(		
+
+
+						$("<option></option>")						
+
+						.attr("value", item.id_status_msg)						  						  
+
+						.text(item.payment_status )						  					
+
+						);			   											
+
+					});						
+
+							 
+
+					
+
+									   
+
+					$("#status_select").select2({			    
+
+						placeholder: "Select status",			    
+
+						allowClear: true		    
+					
+					});					
+
+					$("#status_select").select2("val", ($('#id_status').val()!=null?$('#id_status').val():''));
+
+
+
+             	var selectid=$('#id_status').val();
+
+
+
+             		if(selectid!=null && selectid > 0)
+
+
+
+                	{
+
+
+
+            				$('#id_status').val(selectid);
+
+
+
+            				$('.overlay').css('display','block');
+
+
+
+            		}
+					
+
+					  //  $("#select_branch").select2("val",(id_branch!='' && id_branch>0?id_branch:''));	 
+
+					// $(".overlay").css("display", "none");			
+
+				}	
+
+		   }); 
+
+	   }
+---------------------------------------------------------------------------
+In function set_payment_list(data); adding this in datatable(after to receipt no)
+	
+	{ "mDataProp": function(row,type,val,meta)
+
+
+
+	                {
+						var remark = "'"+row.remark+"'";
+						var edit_pay =  (access.edit == 1  ? '<span>'+row.remark+'<a href="#" class="btn-edit" onclick="edit_3('+id+','+remark+')"><i class="fa fa-edit" ></i></a></span>' : '');
+						
+						return edit_pay;
+					}
+
+					
+
+	               },
+---------------------------------------------------------------------------------------
+	
+function edit_3(id,remark){
+	console.log(remark);
+	$('#id_payment').val(id);
+	$("#remark1").val(remark);
+    $('#payment_date').datetimepicker({ format: 'yyyy-mm-dd hh:ii:ss', timezone: 'GMT'});
+    $('#edit_payment1').modal('show');
+    //  var pay = $('#id_payment').val(id);
+	//  console.log(pay);
+    
+}
+
+$("#update_payment1").on("click",function(){
+
+		// alert(1);
+		
+		if($('#remark1').val()==null || $('#remark1').val()=="")
+
+		{
+			alert(2);
+			msg='<div class = "alert alert-danger"><a href="" class = "close" data-dismiss = "alert">&times;</a><strong>Warning!</strong> Enter the Remark.</div>';
+
+			$("div.overlay").css("display", "none");
+
+			$('#error-msg1').html(msg);
+
+			return false;
+
+		}
+		else{
+
+		    // var postdata=$('#update_pay_form').serialize();
+			var id = $('#id_payment').val();
+			var remark = $('#remark1').val();
+		    
+
+		    
+
+			$("div.overlay").css("display", "block");
+
+			$.ajax({
+				url: base_url + 'index.php/admin_payment/update_remark',
+				dataType: "json",
+				method: "POST",
+				data: {'id_payment': id, 'remark': remark},
+				success: function (data) {
+			
+					console.log(data);
+					location.reload();
+				}
+			});
+
+		}
+	});
+
+if(ctrl_page[1]=='list')
+	{
+
+
+		  $('#mobilenumber').on('keyup',function(){
+			var mobile=$('#mobilenumber').val();
+			if(mobile.length==0){
+			$("#customer_id").val('');
+			}
+			});
+
+			
+
+		   $("#mobilenumber" ).autocomplete({
+			source: function( request, response ) 
+			{
+			var mobile=$("#mobilenumber").val();
+			
+			my_Date = new Date();
+			$.ajax({
+				  url:base_url+ "index.php/admin_customer/ajax_get_customers_list?nocache=" + my_Date.getUTCSeconds(),
+			dataType: "json",
+			type: 'POST',
+			data:{'mobile':mobile},
+			success: function( data ) 
+			{
+					var data = JSON.stringify(data);
+					data = JSON.parse(data);
+					var cus_list = new Array(data.length);
+					var i = 0;
+					data.forEach(function (entry) {
+					console.log(entry.mobile);
+					var customer= {
+					label: entry.mobile+'  '+entry.firstname,
+					value:entry.id_customer
+					
+					};
+					cus_list[i] = customer;
+					i++;
+					});
+					response(cus_list);
+			}
+			});
+			},
+			minLength: 4,
+			delay: 300, 
+			select: function(e, i)
+			{
+			e.preventDefault();
+			$("#mobilenumber" ).val(i.item.label);
+			$("#customer_id").val(i.item.value);
+			//$("#id_scheme_account").val(i.item.id_scheme_account);
+			$('.overlay').css('display','block');
+			
+			if($('#customer_id').val()!='')
+			{
+							var from_date = $('#payment_list1').text();
+							var to_date  = $('#payment_list2').text();
+							var id_customer=$('#customer_id').val();	
+							var id_employee = $('#id_employee').val();
+							var id_branch=$('#id_branch').val();	
+							var id_status=$('#id_status').val();
+							get_payment_list(from_date,to_date,id_branch,id_employee,id_status,id_customer);
+			}
+
+			},
+				response: function(e, i) {
+				// ui.content is the array that's about to be sent to the response callback.
+				if (i.content.length === 0) {
+				alert('Please Enter a valid Number');
+				$('#mobilenumber').val('');
+				} 
+			},
+					});
+	}
+
+---------------------------------------------------------------------------------
+Admin_payment.php
+-------------------
+
+	function update_remark(){
+		$data = array(
+			'remark' =>$_POST['remark']
+		);
+		$remark_update = $this->payment_model->update_data($data,'id_payment',$_POST['id_payment'],'payment');
+		echo json_encode($remark_update);
+		}
+function get_status()
+ {
+    $sql="select * from payment_status_message";
+    $data=$this->db->query($sql)->result_array();
+    echo json_encode($data);
+ }
+admin payment
+---------------------------------------------------------------------------------
+Payment_model.php
+-----------------
+	Replace the function update_data() with the below func 
+	
+	public function update_data($data, $id_field, $id_value, $table)
+    {    
+	    $edit_flag = 0;
+	    $this->db->where($id_field, $id_value);
+		$edit_flag = $this->db->update($table,$data);
+		return ($edit_flag==1?true:false);
+	}
+	--------------------------------------------------------------------------
+Adding into payment_list_range()
+
+	$id_status = $_POST['id_status'];
+	$id_customer = $_POST['id_customer'];
+	
+	add to $sql query
+		".($id_status!=''? " and psm.id_status_msg='".$id_status."'":'')."
+		".($id_customer!='' ? "and c.id_customer=".$id_customer."":'')."
+--------------------------------------------------------------------------------------------------------
+

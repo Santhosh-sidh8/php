@@ -1,0 +1,37 @@
+ To show the Employee name when entering the referral code
+------------------------------------------------------------
+
+scheme_account.js
+---------------------
+
+Function name:checkreferalcode(codes)
+	Remove the If condition and replace this
+			if(data.status==true)
+				{
+
+				   $('#ref_name').text('Employee Name: ' + data.emp_name);
+				  // $('#referal_code').val('');
+				  // $('#referal_code').attr("placeholder", data.msg);
+
+					return true;
+				}else{
+					$('#ref_name').text('No employee in this id');
+				}
+account_model.php
+--------------------
+Function name:check_refcode($mbi,$id_customer)
+	
+	if($referal_code == null || $referal_code == ""){	
+		if($isEnteredCodevalid['status'] == true){
+
+	Add this query in the above if condition
+
+		$query = $this->db->query("SELECT firstname FROM employee WHERE emp_code = ".$mbi);
+		$emp_data = $query->row_array();
+		$result = array('status' => true, 'msg' => 'Valid referal Code','emp_name'=>$emp_data['firstname'] );
+
+view->scheme->opening->form.php
+-----------------------------------
+
+	add this after (id=referal_code) input field
+		<div><span id="ref_name"></span></div>

@@ -1,0 +1,46 @@
+-----------------------------------------------
+views/reports/payment_history.php
+-----------------------------------------------
+
+	replace the column(Total)
+--------------------------------------- 
+	
+	<tr class="warning">
+												
+												<th colspan="3">Total</th>
+
+												<td style="color:blue"><?php echo $bal_amt ; ?> </td>
+
+												<td style="color:blue"><?php echo ($pay['scheme_type']=='0' || $pay['flexible_sch_type']=='1') ? '-': $bal_wt; ?> </td>
+
+												<td style="color:blue"><?php echo $bal_amt ; ?> </td>
+
+												<td style="color:blue"><?php echo ($pay['scheme_type']=='0' || $pay['flexible_sch_type']=='1') ? '-': $bal_wt; ?> </td>											
+
+											 </tr>
+
+-----------------------------------------------
+	replace the (date range) column
+-----------------------------------------------
+
+<div class="col-md-2">
+					          <br/> <br>
+	                   <div class="form-group">                     
+	                    <button class="btn btn-default btn_date_range" id="account-dt-btn">
+	                      <span  style="display:none;" id="account_list1"></span>
+	                      <span  style="display:none;" id="account_list2"></span>
+	                      <i class="fa fa-calendar"></i> Date range picker
+	                      <i class="fa fa-caret-down"></i>
+	                     </button>  
+	                   </div>
+	                </div> 
+
+----------------------------------
+adding (style="margin-left: 15px;") in the respective parent <div>
+
+	1.Select Employee
+	2.Filter By Scheme
+	3.Filter By Group
+	4.Select A/c close Branch.
+
+	

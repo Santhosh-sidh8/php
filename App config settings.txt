@@ -1,0 +1,96 @@
+Task--Adding pin required,showDirectpay,pg_email,block_pay_mins in app config settings
+-------------------------------------------------------------------------------------------
+
+Views->config_settings.php
+--------------------------
+
+	Adding in chit settings
+	----------------------------
+	
+			<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Show Direct Payment</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="showDirectpay_yes" name="general[showDirectpay]" value="1" <?php if($general['showDirectpay'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="showDirectpay_no" name="general[showDirectpay]" value="0"<?php if($general['showDirectpay'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label for="block_pay_mins" class="col-md-4 ">Block Payment(in mins)</label>
+											<div class="col-md-4">
+												<input type="text" class="form-control" name="general[block_pay_mins]" id="id_block_pay_mins" value="<?php echo set_value(general[block_pay_mins],$general[block_pay_mins])  ?>" placeholder="eg:" />
+												<p class="help-block"></p>
+											</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label for="pg_email" class="col-md-4 ">Payment Gateway Email</label>
+											<div class="col-md-4">
+												<input type="text" class="form-control" name="general[pg_email]" id="id_pg_email" value="<?php echo set_value(general[pg_email],$general[pg_email])  ?>" placeholder="eg:" />
+												<p class="help-block"></p>
+											</div>
+									</div>
+								</div>
+							</div>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	Adding in App custom field
+	-------------------------------
+
+	<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h5 for="chargeseme_name" class="col-md-4">Pin required</h5>
+										<div class="col-md-8">
+											
+												<div class="col-md-4">
+													<input type="radio" id="is_pin_required_no" name="general[is_pin_required]" value="0" <?php if($general['is_pin_required'] == 0){ ?> checked="true" <?php } ?>> No
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="is_pin_required_yes" name="general[is_pin_required]" value="1"<?php if($general['is_pin_required'] == 1){ ?> checked="true" <?php } ?>> Yes
+												</div>
+												<div class="col-md-4">
+													<input type="radio" id="is_pin_required_yes_r" name="general[is_pin_required]" value="2" <?php if($general['is_pin_required'] == 2){ ?> checked="true" <?php } ?>> Show and Mandatory
+												</div>
+												<p class="help-block"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	admin_settings.php
+	----------------------
+	function config_setting($id=1){
+
+		Add the below code in $gen_info array
+	
+			'is_pin_required'=>(isset($general['is_pin_required'])?$general['is_pin_required']:0),
+										'showDirectpay'=>(isset($general['showDirectpay'])?$general['showDirectpay']:0),
+										'block_pay_mins'=>(isset($general['block_pay_mins'])?$general['block_pay_mins']:NULL),
+										'pg_email'=>(isset($general['pg_email'])?$general['pg_email']:NULL),
+}	
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	admin_settings_model.php
+	---------------------------
+
+	function settingsDB(){
+
+	case:get
+	
+	add into if and else($sql--is_pin_required,showDirectpay,block_pay_mins,pg_email);
+}

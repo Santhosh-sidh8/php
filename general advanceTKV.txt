@@ -1,0 +1,70 @@
+............//views/scheme/closing/form
+	
+	<div class="row col-sm-12">
+				<h4><strong>General Advance</strong></h4>
+                <div class="col-sm-4">
+                    <div class="form-group">
+								<label for=""><a  data-toggle="tooltip" title="Actual amount paid by the customer" style="color:#FF0000;">Total Advance Paid Amount</a> </label>
+
+								<div class="input-group ">
+
+									<span class="input-group-addon input-sm"><?php echo $this->session->userdata('currency_symbol')?></span>
+
+									<input type="text" id="tot_adv_amt_paid" name="account[tot_adv_amt_paid]" class="form-control" readonly="true" value="<?php echo set_value('account[tot_adv_amt_paid]',$account['tot_adv_amt_paid']); ?>"/>
+									<!--	<input type="hidden" id="closing_amt" name="account[closing_amount]" class="form-control" readonly="true" value="<?php echo set_value('account[closing_amount]',$account['closing_amount']); ?>"/>  -->
+								</div>
+
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="">Total Advance Paid Weight </label>
+						<div class="input-group">
+							<!--DGS-DCNM if condition changes for INR & gm-->
+							<!-- <span class="input-group-addon input-sm"><?php echo $this->session->userdata('currency_symbol')?></span> -->
+							<input type="text"  id="tot_adv_wgt_paid" name="account[tot_adv_wgt_paid ]" class="form-control" required readonly="true" value="<?php echo set_value('account[tot_adv_wgt_paid ]',$account['tot_adv_wgt_paid']); ?>"/>
+							<!-- <input type="hidden" name="account[interest_val]" value="<?php if($account['interest_val'] != ''){ echo $account['interest_val'] ;}  ?>"> -->
+							<span class="input-group-addon">gm</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+						<div class="form-group">
+				  
+							<label for="">Advance Benefits</label>
+							
+							<?php  //if($account['scheme_type']=='Amount' || ($account['scheme_type']=="FLXEBLE_AMOUNT" )) {
+								if( $account['sch_typ'] == 3 && ($account['flexible_sch_type'] == 4 || $account['flexible_sch_type'] == 5)){
+								//echo(1);exit;	
+							?>
+								<div class="input-group">
+									<input type="text" id="tot_adv_benefit" name="account[tot_adv_benefit]" class="form-control" readonly="true" value="<?php echo set_value('account[tot_adv_benefit]',$account['tot_adv_benefit']); ?>"/>								
+								    <span  id="wgt_symbol" class="input-group-addon">gm</span>
+							 	</div>
+							
+							<?php } 
+							//	else if($account['scheme_type']=="Weight" || $account['scheme_type']=="Amt to Wgt"){
+								else {
+									//echo(2);exit;
+							?>
+								<div class="input-group">
+									<span class="input-group-addon input-sm"><?php echo $this->session->userdata('currency_symbol')?></span>
+									<input type="text" id="tot_adv_benefit" name="account[add_benetot_adv_benefitfits]" class="form-control" readonly="true" value="<?php echo set_value('account[tot_adv_benefit]',$account['tot_adv_benefit']); ?>"/>
+								</div>
+							
+								<?php  } ?>
+						</div>       
+			</div>
+........//admin_manage.php
+
+	close_account_form()
+	case:close
+	array:$data['account']=(
+	'tot_adv_amt_paid'	=> $account['tot_adv_amt_paid'],
+	'tot_adv_wgt_paid'	=> $account['tot_adv_wgt_paid'],
+	'tot_adv_benefit'	=> $account['tot_adv_benefit']
+	)
+........//account_model.php
+	
+	get_close_account()
+	add this(sa.tot_adv_amt_paid,sa.tot_adv_wgt_paid,sa.tot_adv_benefit,)in query  
